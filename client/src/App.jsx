@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import { Route, Routes } from 'react-router'
 import AuthLayout from './components/Auth/AuthLayout'
 import AuthLogin from './pages/Auth/AuthLogin'
@@ -16,12 +16,29 @@ import ShoppingListing from './pages/Shopping_view/ShoppingListing'
 import ShoppingHome from './pages/Shopping_view/ShoppingHome'
 import CheckAuth from './components/common/CheckAuth'
 import UnAuth from './pages/UnAuth/UnAuth'
+import { useDispatch, useSelector } from 'react-redux'
+import { checkAuth } from './store/auth-slice'
+import { Skeleton } from './components/ui/skeleton'
 
 function App() {
-  const isAuthenticated=false;
-  const user={
-    name:"sidd",
-    role:"admin"
+  const {isAuthenticated,user,isLoading}=useSelector((state)=>state.auth);
+  const dispatch=useDispatch();
+  useEffect(()=>{
+    dispatch(checkAuth())
+  },[dispatch])
+
+  if (isLoading) {
+    return (
+      <div className="flex h-screen w-full items-center justify-center">
+        <div className="flex flex-col space-y-3">
+          <Skeleton className="h-[125px] w-[250px] rounded-xl border-r-red-300" />
+          <div className="space-y-2">
+            <Skeleton className="h-4 w-[250px] border-r-red-300" />
+            <Skeleton className="h-4 w-[200px] border-r-red-300" />
+          </div>
+        </div>
+      </div>
+    );
   }
 
   return (
@@ -48,7 +65,7 @@ function App() {
           <Route path='dashboard' element={<AdminDashboard/>}/>
           <Route path='features' element={<AdminFeatures/>}/>
           <Route path='orders' element={<AdminOrders/>}/>
-          <Route path='Products' element={<AdminProduct/>}/>
+          <Route path='products' element={<AdminProduct/>}/>
         </Route>
 
         {/* shop */}

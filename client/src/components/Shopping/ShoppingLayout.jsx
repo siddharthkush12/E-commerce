@@ -6,9 +6,9 @@ function ShoppingLayout() {
   return (
     <div className='flex flex-col bg-white overflow-hidden'>
       <ShoppingHeader/>
-        <Main className="flex flex-col w-full">
+        <div className="flex flex-col w-full">
             <Outlet/>
-        </Main>
+        </div>
     </div>
   )
 }

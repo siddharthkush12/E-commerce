@@ -1,17 +1,33 @@
 import Form from '@/components/common/Form'
 import { loginFormControls } from '@/config/formControls'
+import { loginUser } from '@/store/auth-slice'
 import React, { useState } from 'react'
-import { Link } from 'react-router'
+import { useDispatch } from 'react-redux'
+import { Link, useNavigate } from 'react-router'
+import { toast } from 'sonner'
 
 const initialState={
-  userName:'',
-  email:'',
+  email:' ',
   password:''
 }
 
+
 function AuthLogin() {
   const [formData,setFormData]=useState(initialState)
-  function onSubmit(){
+  const dispatch=useDispatch();
+
+  function onSubmit(e){
+    e.preventDefault();
+    dispatch(loginUser(formData)).then((data)=>{
+      if(data?.payload?.success){
+        toast(data?.payload?.message)
+      }
+      else{
+        toast(data?.payload?.message,{
+            style: { backgroundColor: '#D22B2B', color: 'white'},
+        })
+      }
+    })
 
   }
 
@@ -23,10 +39,11 @@ function AuthLogin() {
       </div>
       <Form
         formControls={loginFormControls}
-        buttonText={'Sign Up'}
+        buttonText={'Log In'}
         formData={formData}
         setFormData={setFormData}
         onSubmit={onSubmit}
+        
       />
     </div>
   )

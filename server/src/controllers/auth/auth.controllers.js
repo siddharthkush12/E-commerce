@@ -16,13 +16,11 @@ const registerUser=async(req,res)=>{
             });
         }
     
-        const existedUser=await User.findOne({
-            $or:[{email}],
-        })
+        const existedUser=await User.findOne({email})
         if(existedUser){
-            return res.status(400).json({
+            return res.json({
                 success:false,
-                message:"Email already exists"
+                message:"Email already exists!!"
             }) 
         }
 
@@ -52,22 +50,64 @@ const registerUser=async(req,res)=>{
 
 //Login
 
-// const loginUser=async(req,res)=>{
-//     const {uemail,password}=req.body;
-//     try {
+const loginUser=async(req,res)=>{
+    const {email,password}=req.body;
+    try{
+        const existingUser=await User.findOne({email});
+        if(!existingUser) return res.json({
+            success:false,
+            message:"User doesn't exist! Please register"
+        })
+
+        const checkPassword=await bcrypt.compare(password,existingUser.password);
+        if(!checkPassword) return res.json({
+            success:false,
+            message:"Invalid Password!!"
+        })
+
+        const token=jwt.sign({
+            id:existingUser._id,
+            role:existingUser.role,
+            email:existingUser.email,
+            username:existingUser.username
+        },'CLIENT_SECRET_KEY',{expiresIn:'60m'})
+        // console.log(token);
         
-//     } catch (error) {
-//         console.log(error);
-//         res.status(500).json({
-//             success:false,
-//             message:"some error occured"
-//         })
-//     }
-// }
+        res.cookie("token",token,{
+            httpOnly:true,
+            secure:false
+        }).json({
+            success:true,
+            message:'Logged in successfully',
+            user:{
+                id:existingUser._id,
+                role:existingUser.role,
+                email:existingUser.email,
+    
+            }
+        })
+
+    } catch (error) {
+        console.log(error);
+        res.status(500).json({
+            success:false,
+            message:"some error occured"
+        })
+    }
+}
+
+
+//logout
+
+const logoutUser=async(req,res)=>{
+    res.clearCookie('token').json({
+        success:true,
+        message:"logout is successfully"
+    })
+}
 
 
 
 
 
-
-export {registerUser}
+export {registerUser, loginUser, logoutUser}

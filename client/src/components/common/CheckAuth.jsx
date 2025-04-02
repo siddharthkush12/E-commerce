@@ -3,25 +3,27 @@ import { Navigate, useLocation } from 'react-router'
 
 function CheckAuth({isAuthenticated,user,children}) {
 
-  const location=useLocation()
-  if(!isAuthenticated && !(location.pathname.includes('/login')||location.pathname.includes('/register'))){
-    return <Navigate to='/auth/login'/>
+  const location = useLocation();
+  const path = location.pathname;
+  
+  // console.log("Authenticated:", isAuthenticated);
+  // console.log("User:", user?.role);
+  // console.log("Role:", user?.role);
+  // console.log("Path:", path);
+
+  if (!isAuthenticated && !path.includes('/auth')) {
+    return <Navigate to='/auth/login' />;
   }
-  if(isAuthenticated && (location.pathname.includes('/login')||location.pathname.includes('/register'))){
-    if(user?.role==='admin'){
-      return <Navigate to='/admin/dashboard'/>
-    }
-    else{
-      return <Navigate to='/shop/home'/>
-    }
-  } 
-  if(isAuthenticated && user?.role!=='admin' && location.pathname.includes('/admin')){
-    return <Navigate to='/unauth-page'/>
+
+  if (isAuthenticated && (path.includes('/login') || path.includes('/register'))) {
+    return <Navigate to={user?.role === 'admin' ? '/admin/dashboard' : '/shop/home'} />;
   }
-  if(isAuthenticated && user?.role!=='admin' && location.pathname.includes('/shop')){
-    return <Navigate to='/admin/dashboard'/>
+
+  if (isAuthenticated && user?.role !== 'admin' && path.includes('/admin')) {
+    return <Navigate to='/unauth-page' />;
   }
-  return <>{children}</>
+
+  return <>{children}</>;
   
 }
 

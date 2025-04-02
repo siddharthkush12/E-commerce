@@ -9,7 +9,7 @@ function Form({formControls, formData, setFormData, onSubmit, buttonText}) {
 
     function renderInputByComponent(getControlItem){
         let element=null;
-        const value=formData[getControlItem.name] || ''
+        const value=formData[getControlItem.name] || '';
 
         switch (getControlItem.componentType) {
             case 'input':
@@ -22,8 +22,8 @@ function Form({formControls, formData, setFormData, onSubmit, buttonText}) {
                     onChange={e=>setFormData({
                         ...formData,
                         [getControlItem.name] : e.target.value,
-                    })}>
-                </Input>);
+                    })}
+                />);
                 break;
                 
             case 'select':
@@ -32,7 +32,7 @@ function Form({formControls, formData, setFormData, onSubmit, buttonText}) {
                     [getControlItem.name] : value,
                 })} value={value}>
                     <SelectTrigger className='w-full'>
-                        <SelectValue placeholder={getControlItem.placeholder}/>
+                        <SelectValue placeholder={getControlItem.label}/>
                     </SelectTrigger>
                     <SelectContent>
                         {
@@ -45,7 +45,7 @@ function Form({formControls, formData, setFormData, onSubmit, buttonText}) {
                 break;
 
             case 'textarea':
-                element=(<Textarea>
+                element=(<Textarea
                     name={getControlItem.name}
                     placeholder={getControlItem.placeholder}
                     id={getControlItem.id}
@@ -54,7 +54,7 @@ function Form({formControls, formData, setFormData, onSubmit, buttonText}) {
                         ...formData,
                         [getControlItem.name] : e.target.value,
                     })}
-                </Textarea>);
+                />);
                 break;
         
             default:
@@ -81,7 +81,7 @@ function Form({formControls, formData, setFormData, onSubmit, buttonText}) {
             {
                 formControls.map(items=>
                     <div className='grid w-full gap-1.5' key={items.name}>
-                        <Label className='mb-1'>{items.label}</Label>
+                        <Label className='mb-2'>{items.label}</Label>
                         {
                             renderInputByComponent(items)
                         }
@@ -89,7 +89,7 @@ function Form({formControls, formData, setFormData, onSubmit, buttonText}) {
                 )
             }
         </div>
-        <Button type='submit' className='mt-2 w-full'>{buttonText || 'Submit'}</Button>
+        <Button type='submit' className='mt-4 w-full cursor-pointer'>{buttonText || 'Submit'}</Button>
     </form>
   )
 }
