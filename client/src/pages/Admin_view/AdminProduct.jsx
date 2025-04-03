@@ -21,11 +21,14 @@ const initialFormData = {
   saleprice: "",
 };
 
-function onSubmit() {}
-
 function AdminProduct() {
   const [openCreateProducts, setOpenCreateProducts] = useState(false);
   const [formData, setFormData] = useState(initialFormData);
+
+  const [imageFile, setImageFile] = useState(null);
+  const [uploadedImageUrl, setUploadedImageUrl] = useState(null);
+
+  function onSubmit() {}
 
   return (
     <>
@@ -51,7 +54,13 @@ function AdminProduct() {
             <SheetTitle className="text-2xl">Add New Product</SheetTitle>
           </SheetHeader>
           <div className="py-7 px-2">
-            <ImageUpload/>
+            <ImageUpload
+              imageFile={imageFile}
+              setImageFile={setImageFile}
+              uploadedImageUrl={uploadedImageUrl}
+              setUploadedImageUrl={setUploadedImageUrl}
+            />
+
             <Form
               formControls={addProductFormElements}
               formData={formData}
