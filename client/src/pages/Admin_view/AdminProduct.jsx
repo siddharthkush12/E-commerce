@@ -1,4 +1,5 @@
 import ImageUpload from "@/components/Admin/ImageUpload";
+import ProductCard from "@/components/Admin/ProductCard";
 import Form from "@/components/common/Form";
 import { Button } from "@/components/ui/button";
 import {
@@ -8,7 +9,12 @@ import {
   SheetTitle,
 } from "@/components/ui/sheet";
 import { addProductFormElements } from "@/config/formControls";
-import React, { useState } from "react";
+import { addNewProduct, fetchProduct } from "@/store/admin/product-slice";
+import React, { useEffect, useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import { toast } from "sonner";
+
+
 
 const initialFormData = {
   image: null,
@@ -22,36 +28,81 @@ const initialFormData = {
 };
 
 function AdminProduct() {
+
   const [openCreateProducts, setOpenCreateProducts] = useState(false);
   const [formData, setFormData] = useState(initialFormData);
-
   const [imageFile, setImageFile] = useState(null);
   const [uploadedImageUrl, setUploadedImageUrl] = useState(null);
+  const [imageLoadingState,setImageLoadingState]=useState(false);
+  const [currentEditedId,setCurrentEditedId]=useState(null);
 
-  function onSubmit() {}
+  const dispatch=useDispatch();
+  const {productList}=useSelector((state)=>state.adminProduct)
+
+
+  function onSubmit(e) {
+    e.preventDefault();
+    dispatch(addNewProduct({
+      ...formData,
+      image:uploadedImageUrl,
+    })).then((data)=>{
+      if(data?.payload?.success){
+        dispatch(fetchProduct());
+        setImageFile(null);
+        setFormData(initialFormData);
+        setOpenCreateProducts(false);
+        toast("Product add success fully");
+      }
+    })
+    
+  }
+
+  useEffect(()=>{
+    dispatch(fetchProduct());
+  },[dispatch])
+  
+  
 
   return (
     <>
-      <div className="flex w-full justify-end">
-        <Button onClick={() => setOpenCreateProducts(true)}>
+      <div className="flex w-full items-center justify-end">
+        <Button className='mb-4' onClick={() => setOpenCreateProducts(true) }>
           Add New Product
         </Button>
       </div>
-      <div className="grid gap-4 md:grid-cols-3 lg:grid-cols-4"></div>
+      <div className="grid gap-4 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 px-2 md:px-0">
+          {
+            productList&&productList.length>0?
+            productList.map((productItem)=>{
+              return(
+                <ProductCard setFormData={setFormData} setOpenCreateProducts={setOpenCreateProducts} setCurrentEditedId={setCurrentEditedId} key={productItem._id} product={productItem}/>
+              )
+            }):null
+          }
+
+      </div>
 
       <Sheet
         open={openCreateProducts}
         onOpenChange={() => {
           setOpenCreateProducts(false);
+          setCurrentEditedId(null)
+          setFormData(initialFormData)
         }}
       >
         <SheetContent
           side="right"
-          className="w-full"
+          className="w-full h-full max-h-screen overflow-y-auto"
           aria-describedby={undefined}
         >
           <SheetHeader>
-            <SheetTitle className="text-2xl">Add New Product</SheetTitle>
+            <SheetTitle className="text-2xl">
+              {
+                currentEditedId!==null?
+                "Edit Product":"Add New Product"
+              }
+              
+              </SheetTitle>
           </SheetHeader>
           <div className="py-7 px-2">
             <ImageUpload
@@ -59,14 +110,18 @@ function AdminProduct() {
               setImageFile={setImageFile}
               uploadedImageUrl={uploadedImageUrl}
               setUploadedImageUrl={setUploadedImageUrl}
+              imageLoadingState={imageLoadingState}
+              setImageLoadingState={setImageLoadingState}
+              isEditMode={currentEditedId!==null}
             />
 
             <Form
               formControls={addProductFormElements}
               formData={formData}
               setFormData={setFormData}
-              buttonText="Add Product"
+              buttonText={currentEditedId!==null? "Edit":"Add Product"}
               onSubmit={onSubmit}
+              
             />
           </div>
         </SheetContent>

@@ -2,7 +2,7 @@ import express from "express";
 import cookieParser from "cookie-parser";
 import cors from "cors";
 import authRouter from "./routes/auth/auth.routes.js"
-import multer from "multer"
+import adminProductRoutes from "./routes/admin/AdminProduct.routes.js"
 
 const app=express();
 
@@ -24,8 +24,8 @@ app.use(
     })
 )
 
-const upload=multer();
-app.use(upload.none());
+// const upload=multer();
+// app.use(upload.none());
 
 app.use(express.urlencoded(
     {
@@ -40,5 +40,7 @@ app.use(express.static("public"));
 
 
 app.use('/api/auth',authRouter);
+app.use('/api/admin/products',adminProductRoutes);
+
 
 export {app};
