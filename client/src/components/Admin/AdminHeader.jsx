@@ -10,7 +10,7 @@ function AdminHeader({setOpen}) {
         <span className="sr-only">Menu</span>
       </Button>
       <div className="flex flex-1 justify-end">
-        <Button>
+        <Button variant="destructive">
           <LogOut/>
           <span>Logout</span>
         </Button>

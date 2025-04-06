@@ -9,10 +9,12 @@ import {
   SheetTitle,
 } from "@/components/ui/sheet";
 import { addProductFormElements } from "@/config/formControls";
-import { addNewProduct, fetchProduct } from "@/store/admin/product-slice";
+import { addNewProduct, deleteProduct, editProduct, fetchProduct } from "@/store/admin/product-slice";
 import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
+import { data } from "react-router";
 import { toast } from "sonner";
+
 
 
 
@@ -42,6 +44,23 @@ function AdminProduct() {
 
   function onSubmit(e) {
     e.preventDefault();
+
+    // For Edit Button
+    currentEditedId!==null?
+    dispatch(editProduct({
+      id:currentEditedId,
+      formData
+    })).then((data)=>{
+      if(data?.payload?.success){
+        dispatch(fetchProduct());
+        setFormData(initialFormData);
+        setOpenCreateProducts(false);
+        setCurrentEditedId(null);
+        toast("Product Edited successfully");
+      }
+    }):
+
+    // For Add new Product Button
     dispatch(addNewProduct({
       ...formData,
       image:uploadedImageUrl,
@@ -51,10 +70,26 @@ function AdminProduct() {
         setImageFile(null);
         setFormData(initialFormData);
         setOpenCreateProducts(false);
-        toast("Product add success fully");
+        toast("Product add successfully");
       }
     })
-    
+  }
+
+  function handleProductDelete(productId){
+    dispatch(deleteProduct(productId))
+    .then((data)=>{
+      if(data?.payload?.success){
+        dispatch(fetchProduct());
+        toast("Product deleted Successfully")
+      }
+    })
+  }
+
+
+  function isFormFilled(){
+    return Object.keys(formData)
+    .filter(key=>key!=='saleprice')
+    .map(key=>formData[key]!=='').every(item=>item);
   }
 
   useEffect(()=>{
@@ -75,13 +110,14 @@ function AdminProduct() {
             productList&&productList.length>0?
             productList.map((productItem)=>{
               return(
-                <ProductCard setFormData={setFormData} setOpenCreateProducts={setOpenCreateProducts} setCurrentEditedId={setCurrentEditedId} key={productItem._id} product={productItem}/>
+                <ProductCard setFormData={setFormData} setOpenCreateProducts={setOpenCreateProducts} setCurrentEditedId={setCurrentEditedId} key={productItem._id} product={productItem} handleProductDelete={handleProductDelete}/>
               )
             }):null
           }
 
       </div>
 
+      {/* Sheet opening from right */}
       <Sheet
         open={openCreateProducts}
         onOpenChange={() => {
@@ -121,7 +157,7 @@ function AdminProduct() {
               setFormData={setFormData}
               buttonText={currentEditedId!==null? "Edit":"Add Product"}
               onSubmit={onSubmit}
-              
+              isButtonDisabled={!isFormFilled()}
             />
           </div>
         </SheetContent>

@@ -4,7 +4,7 @@ import { Button } from "../ui/button";
 import { Badge } from "../ui/badge";
 import { Edit2, Trash2, X } from "lucide-react";
 
-function ProductCard({ product, setFormData, setOpenCreateProducts, setCurrentEditedId }) {
+function ProductCard({ product, setFormData, setOpenCreateProducts, setCurrentEditedId, handleProductDelete}) {
   const [isImageOpen, setIsImageOpen] = useState(false);
 
   const discount = product?.price && product?.saleprice? 
@@ -64,21 +64,25 @@ function ProductCard({ product, setFormData, setOpenCreateProducts, setCurrentEd
           <Button
             size="sm"
             variant="secondary"
-            className="flex items-center gap-1"
+            className="flex items-center gap-1 cursor-pointer"
             onClick={()=>{
                 setOpenCreateProducts(true)
                 setCurrentEditedId(product?._id)
                 setFormData(product)
-                
+
             }}
           >
             <Edit2 className="w-4 h-4" />
             Edit
           </Button>
+
           <Button
             size="sm"
             variant="destructive"
-            className="flex items-center gap-1"
+            className="flex items-center gap-1 cursor-pointer"
+            onClick={()=>{
+                handleProductDelete(product?._id)
+            }}
           >
             <Trash2 className="w-4 h-4" />
             Delete

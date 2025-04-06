@@ -5,7 +5,7 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '.
 import { Textarea } from '../ui/textarea';
 import { Button } from '../ui/button';
 
-function Form({formControls, formData, setFormData, onSubmit, buttonText}) {
+function Form({formControls, formData, setFormData, onSubmit, buttonText, isButtonDisabled}) {
 
     function renderInputByComponent(getControlItem){
         let element=null;
@@ -89,7 +89,7 @@ function Form({formControls, formData, setFormData, onSubmit, buttonText}) {
                 )
             }
         </div>
-        <Button type='submit' className='mt-4 w-full cursor-pointer'>{buttonText || 'Submit'}</Button>
+        <Button disabled={isButtonDisabled} type='submit' className='mt-4 w-full cursor-pointer'>{buttonText || 'Submit'}</Button>
     </form>
   )
 }
