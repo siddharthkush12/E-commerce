@@ -17,8 +17,9 @@ import ShoppingHome from './pages/Shopping_view/ShoppingHome'
 import CheckAuth from './components/common/CheckAuth'
 import UnAuth from './pages/UnAuth/UnAuth'
 import { useDispatch, useSelector } from 'react-redux'
-import { checkAuth } from './store/auth-slice'
+import { checkAuth } from './store/auth'
 import { Skeleton } from './components/ui/skeleton'
+import ShoppingWishlist from './pages/Shopping_view/ShoppingWishlist'
 
 function App() {
   const {isAuthenticated,user,isLoading}=useSelector((state)=>state.auth);
@@ -78,6 +79,7 @@ function App() {
           <Route path='checkout' element={<ShoppingCheckout/>}/>
           <Route path='listing' element={<ShoppingListing/>}/>
           <Route path='home' element={<ShoppingHome/>}/>
+          <Route path='wishlist' element={<ShoppingWishlist/>}/>
         </Route>
 
         <Route path='/unauth-page' element={<UnAuth/>}/>

@@ -12,7 +12,6 @@ import { addProductFormElements } from "@/config/formControls";
 import { addNewProduct, deleteProduct, editProduct, fetchProduct } from "@/store/admin/product-slice";
 import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { data } from "react-router";
 import { toast } from "sonner";
 
 

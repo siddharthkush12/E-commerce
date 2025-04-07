@@ -83,7 +83,7 @@ const loginUser=async(req,res)=>{
                 id:existingUser._id,
                 role:existingUser.role,
                 email:existingUser.email,
-    
+                username:existingUser.username
             }
         })
 

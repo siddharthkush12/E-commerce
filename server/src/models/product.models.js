@@ -21,12 +21,15 @@ const productSchema=new mongoose.Schema({
         type: String,
         required:true
       },
+      seller:{
+        type:String,
+      },
       price: { 
         type: Number,
         required:true
       },
       saleprice: { 
-        type: String,
+        type: Number,
       },
       stock: { 
         type: Number,

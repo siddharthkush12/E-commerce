@@ -26,7 +26,7 @@ const handleImageUpload = async (req, res) => {
 
 const addProduct=async(req,res)=>{
     try {
-      const {image,title,description,category,brand,price,saleprice,stock}=req.body;
+      const {image,title,description,category,brand,price,saleprice,stock,seller}=req.body;
       if(
         [image,title,description,category,brand,price,stock].some((field)=>field?.trim()==="")
       ) {
@@ -43,7 +43,8 @@ const addProduct=async(req,res)=>{
         brand,
         price,
         saleprice,
-        stock
+        stock,
+        seller
       })
 
       await createNewProduct.save();
@@ -87,7 +88,7 @@ const fetchProduct=async(req,res)=>{
 const editProduct=async(req,res)=>{
   try {
     const {id}=req.params;
-    const {image,title,description,category,brand,price,saleprice,stock}=req.body;
+    const {image,title,description,category,brand,price,saleprice,stock,seller}=req.body;
 
     const findProduct=await Product.findById(id);
     if(!findProduct) return res.status(404).json({
@@ -103,6 +104,7 @@ const editProduct=async(req,res)=>{
     findProduct.price = price || findProduct.price;
     findProduct.saleprice = saleprice || findProduct.saleprice;
     findProduct.stock = stock || findProduct.stock; 
+    findProduct.seller = seller || findProduct.seller; 
 
     await findProduct.save();
     res.status(200).json({

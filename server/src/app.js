@@ -3,6 +3,8 @@ import cookieParser from "cookie-parser";
 import cors from "cors";
 import authRouter from "./routes/auth/auth.routes.js"
 import adminProductRoutes from "./routes/admin/AdminProduct.routes.js"
+import shopProductRoutes from "./routes/shop/product.routes.js"
+import shopWishlistRoutes from "./routes/shop/wishlist.routes.js"
 
 const app=express();
 
@@ -24,8 +26,6 @@ app.use(
     })
 )
 
-// const upload=multer();
-// app.use(upload.none());
 
 app.use(express.urlencoded(
     {
@@ -41,6 +41,10 @@ app.use(express.static("public"));
 
 app.use('/api/auth',authRouter);
 app.use('/api/admin/products',adminProductRoutes);
+app.use('/api/shop/products',shopProductRoutes);
+app.use('/api/shop/wishlist',shopWishlistRoutes);
 
 
 export {app};
+
+

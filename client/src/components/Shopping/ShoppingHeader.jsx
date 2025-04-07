@@ -1,9 +1,182 @@
-import React from 'react'
+import React from "react";
+import { Link, useNavigate, NavLink } from "react-router-dom";
+import { Sheet, SheetContent, SheetTrigger } from "../ui/sheet";
+import { Button } from "../ui/button";
+import {
+  CircleHelp,
+  CreditCard,
+  Gift,
+  Heart,
+  LogOut,
+  MapPinHouse,
+  Menu,
+  PiggyBank,
+  ShoppingBasket,
+  ShoppingCart,
+  User,
+} from "lucide-react";
+import { useDispatch, useSelector } from "react-redux";
+import { shopViewHeaderMenuItems } from "@/config/formControls";
+import { Avatar, AvatarFallback, AvatarImage } from "../ui/avatar";
+import { Badge } from "../ui/badge";
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuLabel,
+  DropdownMenuSeparator,
+  DropdownMenuTrigger,
+} from "../ui/dropdown-menu";
+import { logoutUser } from "@/store/auth";
 
-function ShoppingHeader() {
+
+
+
+function MenuItems() {
+  
+
   return (
-    <div>ShoppingHeader</div>
-  )
+    <nav className="flex flex-col mb-2 lg:mb-0 lg:items-center gap-9 lg:flex-row">
+      {shopViewHeaderMenuItems.map((menuItems) => {
+        const isActive=menuItems.id;
+        return (
+          <NavLink
+            to={menuItems.path || "#"}
+            className="font-semibold text-xl duration-200 text-muted-foreground hover:text-orange-500"
+            key={menuItems.id}
+          >
+            {menuItems.label}
+          </NavLink>
+        );
+      })}
+    </nav>
+  );
 }
 
-export default ShoppingHeader
+function RightMenuItems() {
+  const { user } = useSelector((state) => state.auth);
+
+  const navigate=useNavigate();
+  const dispatch=useDispatch();
+
+  function handleLogout(){
+    dispatch(logoutUser());
+  }
+  // console.log(user);
+  
+
+  return (
+    <div className="flex flex-col gap-5 p-6 items-start lg:flex-row lg:items-center">
+      
+      {/* Dropdown */}
+      <DropdownMenu>
+        <DropdownMenuTrigger asChild>
+          <Avatar className="h-10 w-10 cursor-pointer">
+            <AvatarImage src="/avatar.jpg"></AvatarImage>
+            <AvatarFallback className="text-3xl bg-orange-300">
+              {user?.username?.[0]?.toUpperCase() || ''}
+            </AvatarFallback>
+          </Avatar>
+        </DropdownMenuTrigger>
+        <DropdownMenuContent side="bottom" className="w-auto min-w-55 mt-3">
+          <DropdownMenuLabel className="flex flex-col text-left">
+            <h3 className="text-lg font-bold">Hello {user?.username}</h3>
+            <span className="text-md mt-[-4px] text-muted-foreground">
+              {user?.email}
+            </span>
+          </DropdownMenuLabel>
+          <DropdownMenuSeparator />
+
+          <DropdownMenuItem onClick={()=>navigate('/shop/wishlist')}>
+            <Heart />
+            Wishlist
+          </DropdownMenuItem>
+          <DropdownMenuItem>
+            <Gift />
+            GiftCard
+          </DropdownMenuItem>
+          <DropdownMenuItem>
+            <PiggyBank />
+            Closify Wallet
+          </DropdownMenuItem>
+          <DropdownMenuItem>
+            <CircleHelp />
+            Contact Us
+          </DropdownMenuItem>
+          <DropdownMenuSeparator />
+
+          <DropdownMenuItem>
+            <CreditCard />
+            Saved Cards
+          </DropdownMenuItem>
+          <DropdownMenuItem>
+            <MapPinHouse />
+            Address
+          </DropdownMenuItem>
+          <DropdownMenuSeparator />
+
+          <DropdownMenuItem onClick={()=>navigate('/shop/account')}>
+            <User className="mr-2" />
+            Profile
+          </DropdownMenuItem>
+          <DropdownMenuItem onClick={handleLogout}>
+            <LogOut className="mr-2" />
+            Logout
+          </DropdownMenuItem>
+        </DropdownMenuContent>
+
+      </DropdownMenu>
+
+      {/* Cart */}
+      <div className="relative rounded p-3 border border-gray-100 cursor-pointer">
+        <Badge className="absolute -top-1 -right-3 bg-yellow-300 rounded-full text-black">
+          5
+        </Badge>
+        <ShoppingCart className="w-5 h-5" />
+        <span className="sr-only">User cart</span>
+      </div>
+    </div>
+  );
+}
+
+function ShoppingHeader() {
+  const { isAuthenticated } = useSelector((state) => state.auth);
+
+  return (
+    <header className="fixed top-0 z-50 w-full shadow border-b bg-background">
+      <div className="flex h-15 items-center justify-between px-3 md:px-10">
+        <Link to="/shop/home">
+          <img src="/Logo.png" className="w-auto h-12 items-center" />
+        </Link>
+
+        {/* For smaller Device */}
+        <Sheet>
+          <SheetTrigger asChild>
+            <Button variant="outline" className="lg:hidden">
+              <Menu />
+              <span className="sr-only">Toggle header menu</span>
+            </Button>
+          </SheetTrigger>
+          <SheetContent side="left" className="w-full max-w-xs p-5 text-left">
+            {isAuthenticated && 
+              <div className="items-start">
+                <RightMenuItems/>
+                <MenuItems/>
+              </div>
+            }
+          </SheetContent>
+        </Sheet>
+
+        {/* For larger Device */}
+        <div className="hidden lg:flex items-center justify-between flex-1">
+          <div className="flex-1 flex justify-center">
+            <MenuItems />
+          </div>
+          {isAuthenticated && <RightMenuItems />}
+        </div>
+      </div>
+    </header>
+  );
+}
+
+export default ShoppingHeader;

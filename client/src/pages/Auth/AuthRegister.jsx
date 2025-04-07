@@ -1,6 +1,6 @@
 import Form from '@/components/common/Form'
 import { registerFormControls } from '@/config/formControls'
-import { registerUser } from '@/store/auth-slice'
+import { registerUser } from '@/store/auth'
 import React, { useState } from 'react'
 import { useDispatch } from 'react-redux'
 import { Link, useNavigate } from 'react-router'
