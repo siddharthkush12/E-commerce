@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { Link, useNavigate, NavLink } from "react-router-dom";
 import { Sheet, SheetContent, SheetTrigger } from "../ui/sheet";
 import { Button } from "../ui/button";
@@ -28,13 +28,14 @@ import {
   DropdownMenuTrigger,
 } from "../ui/dropdown-menu";
 import { logoutUser } from "@/store/auth";
+import CartWrapper from "./CartWrapper";
+import { fetchCart } from "@/store/shop/cart-slice";
 
 
 
 
 function MenuItems() {
   
-
   return (
     <nav className="flex flex-col mb-2 lg:mb-0 lg:items-center gap-9 lg:flex-row">
       {shopViewHeaderMenuItems.map((menuItems) => {
@@ -55,6 +56,9 @@ function MenuItems() {
 
 function RightMenuItems() {
   const { user } = useSelector((state) => state.auth);
+  const {cartItems}=useSelector(state=>state.shopCart);
+
+  const [openCartSheet,setOpenCartSheet]=useState(false);
 
   const navigate=useNavigate();
   const dispatch=useDispatch();
@@ -62,7 +66,11 @@ function RightMenuItems() {
   function handleLogout(){
     dispatch(logoutUser());
   }
-  // console.log(user);
+
+  useEffect(()=>{
+    dispatch(fetchCart(user?.id))
+  },[dispatch])
+  
   
 
   return (
@@ -128,17 +136,21 @@ function RightMenuItems() {
       </DropdownMenu>
 
       {/* Cart */}
-      <div className="relative rounded p-3 border border-gray-100 cursor-pointer">
+      <Sheet open={openCartSheet} onOpenChange={()=>setOpenCartSheet(false)}>
+        <div className="relative rounded p-3 border border-gray-100 cursor-pointer" onClick={()=>setOpenCartSheet(true)}>
         <Badge className="absolute -top-1 -right-3 bg-yellow-300 rounded-full text-black">
-          5
+          {cartItems?.items?.length}
         </Badge>
         <ShoppingCart className="w-5 h-5" />
         <span className="sr-only">User cart</span>
-      </div>
+        </div>
+        <CartWrapper cartItems={cartItems && cartItems.items && cartItems.items.length>0 ? cartItems.items : null}/>
+      </Sheet>
     </div>
   );
 }
 
+ 
 function ShoppingHeader() {
   const { isAuthenticated } = useSelector((state) => state.auth);
 

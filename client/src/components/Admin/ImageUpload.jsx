@@ -104,7 +104,7 @@ function ImageUpload({
               <div className="flex items-center justify-between">
                 <div className="flex items-center">
                   <FileImage className="w-10 h-10 text-primary m-2" />
-                  <p className="text-sm font-medium">{imageFile.name}</p>
+                  <p className="text-sm font-medium truncate overflow-hidden whitespace-nowrap max-w-[200px]">{imageFile.name}</p>
                   <Button
                     variant="ghost"
                     size="icon"

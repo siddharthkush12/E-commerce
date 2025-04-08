@@ -4,12 +4,15 @@ import ShoppingProductCard from '@/components/Shopping/ShoppingProductCard'
 import { Button } from '@/components/ui/button'
 import { DropdownMenu, DropdownMenuContent, DropdownMenuRadioGroup, DropdownMenuRadioItem, DropdownMenuTrigger } from '@/components/ui/dropdown-menu'
 import { sortOption } from '@/config/formControls'
+import { addToCart, fetchCart } from '@/store/shop/cart-slice'
 import { clearProductDetails, fetchFilteredProduct, fetchProductDetails } from '@/store/shop/product-slice'
+import { addWishlistProduct } from '@/store/shop/wishList-slice'
 import { ArrowUpDown } from 'lucide-react'
 import React, { useEffect } from 'react'
 import { useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { useSearchParams } from 'react-router'
+import { toast } from 'sonner'
 
 
 
@@ -29,12 +32,15 @@ function createSearchParamHelper(filterParams){
 
 
 function ShoppingListing() {
+  const {user}=useSelector(state=>state.auth);
+  
 
   const {productList, productDetails}=useSelector((state)=>state.shopProduct);
   const [filters,setFilters]=useState({});
   const [sortProduct,setSortProduct]=useState(null);
   const [searchParams,setSearchParams]=useSearchParams();
   const [openDetailsDialog,setOpenDetailsDialog]=useState(false)
+  
   
 
   const dispatch=useDispatch();
@@ -45,8 +51,7 @@ function ShoppingListing() {
     
   }
 
-
-  // Filter (radio check)
+  // Filter Product Radio checkbox
   function handleFilterProduct(getCategoryId, getCategoryOption, isChecked) {
     setFilters((prevFilters) => {
       const newFilters = { ...prevFilters };
@@ -74,11 +79,32 @@ function ShoppingListing() {
     });
   }
 
-
+  // Get Product Id to get product detail
   function handleGetProductDetails(getCurrentProductId){
     dispatch(fetchProductDetails(getCurrentProductId));
     
   }
+
+  // Items Add into cart
+  function handleAddToCart(getCurrentProductId){;
+    
+    dispatch(addToCart({userId:user?.id,productId:getCurrentProductId,quantity:1})).then((data)=>{
+      if(data?.payload?.success){
+        dispatch(fetchCart(user?.id))
+        toast("Product added to cart")
+      }
+    })
+  }
+
+  // Items Add into Wishlist
+  function handleAddToWishlist(getCurrentProductId){  
+    dispatch(addWishlistProduct({userId:user?.id,productId:getCurrentProductId})).then((data)=>{
+      if(data?.payload?.message){
+        toast(data?.payload?.message)
+      }
+    })
+  }
+
 
 
   useEffect(()=>{
@@ -106,7 +132,10 @@ function ShoppingListing() {
     if(productDetails!==null){
       setOpenDetailsDialog(true);
     }
-  },[productDetails])
+  },[productDetails]) 
+
+
+  
   
 
   return (
@@ -152,7 +181,7 @@ function ShoppingListing() {
             productList&&productList.length>0?
             productList.map((listItems)=>{
               return(
-                <ShoppingProductCard key={listItems._id} product={listItems} handleGetProductDetails={handleGetProductDetails}/>
+                <ShoppingProductCard key={listItems._id} product={listItems} handleGetProductDetails={handleGetProductDetails} handleAddToCart={handleAddToCart} handleAddToWishlist={handleAddToWishlist}/>
               )
             }):null
           }

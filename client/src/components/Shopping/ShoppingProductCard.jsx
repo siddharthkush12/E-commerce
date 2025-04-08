@@ -1,36 +1,16 @@
-import React, { useEffect } from 'react'
-import { Card, CardContent, CardFooter } from '../ui/card'
+import React from 'react'
+import { Card, CardContent } from '../ui/card'
 import { Badge } from '../ui/badge'
 import { Button } from '../ui/button'
 import { Heart, ShoppingBag, } from 'lucide-react'
-import { useDispatch, useSelector } from 'react-redux'
-import { addWishlistProduct } from '@/store/shop/wishList-slice'
-import { toast } from 'sonner'
 
-function ShoppingProductCard({ product, handleGetProductDetails }) {
+
+function ShoppingProductCard({ product, handleGetProductDetails ,handleAddToCart ,handleAddToWishlist}) {
   const discount =
     product?.price && product?.saleprice
       ? Math.round(((product.price - product.saleprice) / product.price) * 100)
       : 0
   
-  const {user}=useSelector(state=>state.auth);
-  const userId=user.id;
-  
-  const dispatch=useDispatch();
-  
-  // console.log(userId,product?._id);
-  
-  
-  
-  function handleWishlist(){
-    dispatch(addWishlistProduct({userId,productId:product._id})).then((data)=>{
-      if(data?.payload?.message){
-        toast(data?.payload?.message)
-      }
-    })
-    
-  }
-
   return (
     <Card className="group w-full max-w-sm mx-auto rounded-2xl overflow-hidden shadow-md hover:shadow-xl transition-shadow duration-300 border border-gray-200 relative" onClick={()=>handleGetProductDetails(product?._id)}>
       
@@ -58,13 +38,18 @@ function ShoppingProductCard({ product, handleGetProductDetails }) {
               onClick={
                 (e)=>{
                   e.stopPropagation();
-                  handleWishlist()
+                  handleAddToWishlist(product?._id);
                 }
               }>
               <Heart/>
               Wishlist
             </Button>
-            <Button variant="default" size="sm" className="xs:w-auto cursor-pointer">
+            <Button variant="default" size="sm" className="xs:w-auto cursor-pointer" 
+              onClick={(e)=>{
+                e.stopPropagation();
+                handleAddToCart(product?._id);
+              }}
+            >
               <ShoppingBag /> 
               Add to Cart
             </Button>

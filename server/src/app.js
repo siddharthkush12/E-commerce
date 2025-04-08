@@ -5,6 +5,10 @@ import authRouter from "./routes/auth/auth.routes.js"
 import adminProductRoutes from "./routes/admin/AdminProduct.routes.js"
 import shopProductRoutes from "./routes/shop/product.routes.js"
 import shopWishlistRoutes from "./routes/shop/wishlist.routes.js"
+import shopCartRoutes from "./routes/shop/cart.routes.js"
+
+
+
 
 const app=express();
 
@@ -43,6 +47,7 @@ app.use('/api/auth',authRouter);
 app.use('/api/admin/products',adminProductRoutes);
 app.use('/api/shop/products',shopProductRoutes);
 app.use('/api/shop/wishlist',shopWishlistRoutes);
+app.use('/api/shop/cart',shopCartRoutes)
 
 
 export {app};

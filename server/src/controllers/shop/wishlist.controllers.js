@@ -20,7 +20,8 @@ const addToWishList=async(req,res)=>{
             })
         }
 
-        let wishlist=await Wishlist.findOne({userId});
+        let wishlist=await Wishlist.findOne({userId});    //it find wishlist of provided userId
+        
         if(!wishlist){
             wishlist=new Wishlist({
                 userId,

@@ -7,6 +7,7 @@ import { sizeItemsList } from '@/config/formControls'
 import { useDispatch, useSelector } from 'react-redux'
 import { addWishlistProduct } from '@/store/shop/wishList-slice'
 import { toast } from 'sonner'
+import { addToCart } from '@/store/shop/cart-slice'
 
 
 function SizeList(){
@@ -39,6 +40,16 @@ function ProductDetails({productDetails, open, setOpen}) {
           }
       })
   }
+
+  function handleAddToCart(getProductDetail){
+    dispatch(addToCart({userId:user?.id,productId:getProductDetail?._id,quantity:1}))
+    .then((data)=>{
+        if(data?.payload?.success){
+            toast(data?.payload?.message);
+        }
+    })
+  }
+
   return (
     <Dialog open={open} onOpenChange={setOpen}>
         
@@ -89,7 +100,7 @@ function ProductDetails({productDetails, open, setOpen}) {
                             <Heart />
                             Wishlist
                         </Button>
-                        <Button variant="default" size="sm" className="xs:w-auto cursor-pointer">
+                        <Button variant="default" size="sm" className="xs:w-auto cursor-pointer" onClick={()=>handleAddToCart(productDetails)}>
                             <ShoppingBag />
                             Add to Cart
                         </Button>
