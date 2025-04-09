@@ -226,3 +226,20 @@ export const sizeItemsList = [
     label: "XLL",
   },
 ];
+
+export const giftCardItems = [
+  {
+    name: "cardnumber",
+    label: "Card Number",
+    placeholder: "Enter your Card Number",
+    component: "input",
+    type: "text"
+  },
+  {
+    name: "cardpin",
+    label: "Card Pin",
+    placeholder: "Enter your Card Pin",
+    component: "input",
+    type: "text"
+  }
+];

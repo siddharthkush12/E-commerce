@@ -189,9 +189,9 @@ function ShoppingListing() {
           <ProductDetails 
             productDetails={productDetails}
             open={openDetailsDialog}
-            setOpen={(op)=>{
-              setOpenDetailsDialog(op)
-              if(!op) dispatch(clearProductDetails());
+            setOpen={(open)=>{
+              setOpenDetailsDialog(open)
+              if(!open) dispatch(clearProductDetails());
             }}
           />
         </div>

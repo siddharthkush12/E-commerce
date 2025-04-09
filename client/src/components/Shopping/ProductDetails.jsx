@@ -13,13 +13,13 @@ import { addToCart, fetchCart } from '@/store/shop/cart-slice'
 function SizeList(){
     return(
         <>
-            {
-                sizeItemsList.map((item)=>{
-                    return(
-                        <Button key={item.id} variant="outline">{item.label}</Button>
-                    )
-                })
-            }
+        {
+            sizeItemsList.map((item)=>{
+                return(
+                    <Button key={item.id} variant="outline">{item.label}</Button>
+                )
+            })
+        }
         </>
     )
 }

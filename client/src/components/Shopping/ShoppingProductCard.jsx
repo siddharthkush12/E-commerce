@@ -58,7 +58,7 @@ function ShoppingProductCard({ product, handleGetProductDetails ,handleAddToCart
 
 
       {/* Title and price */}
-      <CardContent className="px-4">
+      <CardContent className="px-2 md:px-4">
         <h2 className="text-xl font-bold text-gray-800 overflow-hidden line-clamp-2">
           {product?.title}
         </h2>

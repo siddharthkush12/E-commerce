@@ -99,11 +99,11 @@ function RightMenuItems() {
             <Heart />
             Wishlist
           </DropdownMenuItem>
-          <DropdownMenuItem>
+          <DropdownMenuItem onClick={()=>navigate('/shop/giftcard')}>
             <Gift />
             GiftCard
           </DropdownMenuItem>
-          <DropdownMenuItem>
+          <DropdownMenuItem onClick={()=>navigate('/shop/wallet')}>
             <PiggyBank />
             Closify Wallet
           </DropdownMenuItem>
