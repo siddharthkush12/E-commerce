@@ -56,6 +56,7 @@ function Form({formControls, formData, setFormData, onSubmit, buttonText, isButt
                     })}
                 />);
                 break;
+            
         
             default:
                 element=<Input

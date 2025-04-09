@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { Link, useNavigate, NavLink } from "react-router-dom";
-import { Sheet, SheetContent, SheetTrigger } from "../ui/sheet";
+import { Sheet, SheetContent, SheetTrigger,SheetTitle,SheetDescription } from "../ui/sheet";
 import { Button } from "../ui/button";
 import {
   CircleHelp,
@@ -11,7 +11,6 @@ import {
   MapPinHouse,
   Menu,
   PiggyBank,
-  ShoppingBasket,
   ShoppingCart,
   User,
 } from "lucide-react";
@@ -34,12 +33,11 @@ import { fetchCart } from "@/store/shop/cart-slice";
 
 
 
+
 function MenuItems() {
-  
   return (
     <nav className="flex flex-col mb-2 lg:mb-0 lg:items-center gap-9 lg:flex-row">
       {shopViewHeaderMenuItems.map((menuItems) => {
-        const isActive=menuItems.id;
         return (
           <NavLink
             to={menuItems.path || "#"}
@@ -53,6 +51,8 @@ function MenuItems() {
     </nav>
   );
 }
+
+
 
 function RightMenuItems() {
   const { user } = useSelector((state) => state.auth);
@@ -69,7 +69,7 @@ function RightMenuItems() {
 
   useEffect(()=>{
     dispatch(fetchCart(user?.id))
-  },[dispatch])
+  },[dispatch,user?.id])
   
   
 
@@ -139,7 +139,7 @@ function RightMenuItems() {
       <Sheet open={openCartSheet} onOpenChange={()=>setOpenCartSheet(false)}>
         <div className="relative rounded p-3 border border-gray-100 cursor-pointer" onClick={()=>setOpenCartSheet(true)}>
         <Badge className="absolute -top-1 -right-3 bg-yellow-300 rounded-full text-black">
-          {cartItems?.items?.length}
+          {cartItems?.items?.length<1? 0: cartItems?.items?.length}
         </Badge>
         <ShoppingCart className="w-5 h-5" />
         <span className="sr-only">User cart</span>
@@ -170,9 +170,14 @@ function ShoppingHeader() {
             </Button>
           </SheetTrigger>
           <SheetContent side="left" className="w-full max-w-xs p-5 text-left">
-            {isAuthenticated && 
-              <div className="items-start">
+          <SheetTitle>
+          {isAuthenticated && 
                 <RightMenuItems/>
+            }
+          </SheetTitle>
+          <SheetDescription></SheetDescription>
+            {isAuthenticated && 
+              <div className="ml-6">
                 <MenuItems/>
               </div>
             }

@@ -36,6 +36,10 @@ const productSchema=new mongoose.Schema({
         type: Number,
         required:true
       },
+      size:{
+        type:String,
+        enum:['xs','s','m','l','xl','xll']
+      }
       
 },{timestamps:true})
 

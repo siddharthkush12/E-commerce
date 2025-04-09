@@ -1,13 +1,13 @@
 import React from 'react'
-import { Dialog, DialogContent  } from '../ui/dialog'
+import { Dialog, DialogContent, DialogHeader, DialogTitle  } from '../ui/dialog'
 import { Separator } from '../ui/separator'
-import {  ArrowLeftRight, HandCoins, Heart, ReceiptText, Ruler, ShoppingBag, ShoppingCart, Truck } from 'lucide-react'
+import {  ArrowLeftRight, HandCoins, Heart, ReceiptText,  ShoppingBag, ShoppingCart, Truck } from 'lucide-react'
 import { Button } from '../ui/button'
 import { sizeItemsList } from '@/config/formControls'
 import { useDispatch, useSelector } from 'react-redux'
 import { addWishlistProduct } from '@/store/shop/wishList-slice'
 import { toast } from 'sonner'
-import { addToCart } from '@/store/shop/cart-slice'
+import { addToCart, fetchCart } from '@/store/shop/cart-slice'
 
 
 function SizeList(){
@@ -16,7 +16,7 @@ function SizeList(){
             {
                 sizeItemsList.map((item)=>{
                     return(
-                        <Button key={item._id} variant="outline">{item.label}</Button>
+                        <Button key={item.id} variant="outline">{item.label}</Button>
                     )
                 })
             }
@@ -29,12 +29,12 @@ function SizeList(){
 function ProductDetails({productDetails, open, setOpen}) {
 
   const {user}=useSelector(state=>state.auth);
-  const userId=user.id;
+
   
   const dispatch=useDispatch();
   
   function handleWishlist(){
-      dispatch(addWishlistProduct({userId,productId:productDetails._id})).then((data)=>{
+      dispatch(addWishlistProduct({userId:user?.id,productId:productDetails._id})).then((data)=>{
           if(data?.payload?.message){
             toast(data?.payload?.message)
           }
@@ -45,16 +45,20 @@ function ProductDetails({productDetails, open, setOpen}) {
     dispatch(addToCart({userId:user?.id,productId:getProductDetail?._id,quantity:1}))
     .then((data)=>{
         if(data?.payload?.success){
+            dispatch(fetchCart(user?.id))
             toast(data?.payload?.message);
         }
     })
   }
 
+
   return (
     <Dialog open={open} onOpenChange={setOpen}>
-        
+        <DialogHeader>
+            <DialogTitle></DialogTitle>
+        </DialogHeader>
         <DialogContent className='grid grid-cols-1 gap-7 md:grid-cols-2 max-h-[70vh] max-w-[90vw] sm:max-w-[80vw] lg:max-w-[70vw] overflow-y-auto sm:overflow-hidden' aria-describedby={undefined}>
-           
+        
             <div className='relative overflow-hidden rounded-lg mt-2 md:mt-0'>
                 <img
                     src={productDetails?.image}
@@ -67,7 +71,7 @@ function ProductDetails({productDetails, open, setOpen}) {
 
             <div className='md:overflow-y-auto md:max-h-[60vh] md:pr-2'>
                 <h1 className='text-4xl font-extrabold'>{productDetails?.title}</h1>
-                <p className='text-xl text-muted-foreground mb-4'>{productDetails?.category?.[0].toUpperCase()+productDetails?.category.slice(1)}</p>
+                <p className='text-xl text-muted-foreground mb-4'>{typeof productDetails?.category==="string" ? productDetails?.category?.[0].toUpperCase()+productDetails?.category.slice(1):null} </p>
                 <Separator/>
                 <div>
                 {
