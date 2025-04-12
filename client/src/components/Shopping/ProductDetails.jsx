@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useEffect, useState } from 'react'
 import { Dialog, DialogContent, DialogHeader, DialogTitle  } from '../ui/dialog'
 import { Separator } from '../ui/separator'
 import {  ArrowLeftRight, HandCoins, Heart, ReceiptText,  ShoppingBag, ShoppingCart, Truck } from 'lucide-react'
@@ -10,25 +10,14 @@ import { toast } from 'sonner'
 import { addToCart, fetchCart } from '@/store/shop/cart-slice'
 
 
-function SizeList(){
-    return(
-        <>
-        {
-            sizeItemsList.map((item)=>{
-                return(
-                    <Button key={item.id} variant="outline">{item.label}</Button>
-                )
-            })
-        }
-        </>
-    )
-}
+
 
 
 
 function ProductDetails({productDetails, open, setOpen}) {
 
   const {user}=useSelector(state=>state.auth);
+ 
 
   
   const dispatch=useDispatch();
@@ -51,6 +40,7 @@ function ProductDetails({productDetails, open, setOpen}) {
     })
   }
 
+  
 
   return (
     <Dialog open={open} onOpenChange={setOpen}>
@@ -96,8 +86,14 @@ function ProductDetails({productDetails, open, setOpen}) {
                     <span className='block font-medium mb-3'>Select Size: </span>
 
                     <div className='flex gap-2 flex-wrap'>
-                        <SizeList/>
-                    </div>
+                            {
+                                sizeItemsList.map((item)=>{
+                                    return(
+                                        <Button key={item.id} variant="outline" >{item.label}</Button>
+                                    )
+                                })
+                            }
+                        </div>
 
                     <div className='flex flex-wrap py-5 gap-3'>
                         <Button variant="secondary" size="sm" className="xs:w-auto cursor-pointer" onClick={()=>handleWishlist()}>

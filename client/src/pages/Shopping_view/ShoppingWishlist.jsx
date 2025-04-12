@@ -33,7 +33,7 @@ function ShoppingWishlist() {
   
 
   return (
-    <div className='flex flex-col py-2 px-3 md:px-15 '>
+    <div className='flex flex-col py-2 px-3 md:px-15'>
         <div className='px-3 md:px-10 text-2xl'>
             My Wishlist: {wishlistProductList.length}
         </div>

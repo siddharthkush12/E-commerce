@@ -9,8 +9,15 @@ import { Button } from "../ui/button";
 import CartItemContent from "./CartItemContent";
 import { Separator } from "../ui/separator";
 import { Gift } from "lucide-react";
+import { useNavigate } from "react-router";
 
-function CartWrapper({ cartItems }) {
+
+
+
+
+
+
+function CartWrapper({ cartItems , setOpenCartSheet}) {
 
   let total = 0,
     discount = 0,
@@ -19,12 +26,12 @@ function CartWrapper({ cartItems }) {
   cartItems &&
     cartItems.map((i) => {
       total += i?.price * i?.quantity;
-      discount += i?.saleprice * i?.quantity;
+      discount += (i?.price-i?.saleprice) * i?.quantity;
     });
 
   let totalAmount = total - discount + platformFee + shippingFee;
 
-
+    const navigate=useNavigate()
 
   return (
     <SheetContent className="sm:max-w-md pt-4" aria-describedby={undefined}>
@@ -92,6 +99,12 @@ function CartWrapper({ cartItems }) {
               <Button
                 variant="custom"
                 className="bg-gradient-to-r from-orange-400 to-purple-500 text-white font-medium hover:from-orange-500 hover:to-purple-600 transition-all duration-300 cursor-pointer"
+                onClick={
+                  ()=>{
+                    navigate('/shop/checkout')
+                    setOpenCartSheet(false)
+                  }
+                }
               >
                 CheckOut
               </Button>

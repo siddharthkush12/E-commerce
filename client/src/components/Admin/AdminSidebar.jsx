@@ -59,9 +59,9 @@ function AdminSidebar({ open, setOpen }) {
         <SheetContent side="left" className="w-72" aria-describedby={undefined}>
           <div className="flex flex-col h-full py-6 px-4">
             <SheetHeader className="border-b pb-4">
-              <SheetTitle className="flex items-center gap-2">
-                <RiAdminFill className="text-2xl" />
-                <span className="text-xl font-extrabold">Admin Panel</span>
+              <SheetTitle className="flex items-center gap-1">
+                <img src="/Logo.png" alt="image not found" className="h-8 w-27"/>
+                <h1 className="text-l font-extrabold bg-gradient-to-r from-orange-300 via-orange-500 to-purple-300 text-transparent bg-clip-text">Admin Panel</h1>
               </SheetTitle>
             </SheetHeader>
             <div className="px-4">
@@ -74,8 +74,8 @@ function AdminSidebar({ open, setOpen }) {
       {/* desktop view */}
       <aside className="hidden w-72 flex-col border-r bg-background p-6 lg:flex">
         <div className="flex items-center gap-2">
-          <RiAdminFill className="text-2xl" />
-          <h1 className="text-xl font-extrabold">Admin Panel</h1>
+          <img src="/Logo.png" alt="image not found" className="h-8 w-27"/>
+          <h1 className="text-xl font-extrabold bg-gradient-to-r from-orange-300 via-orange-500 to-purple-300 text-transparent bg-clip-text">Admin Panel</h1>
         </div>
         <MenuItems />
       </aside>

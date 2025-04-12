@@ -1,5 +1,5 @@
 import React, { useEffect } from 'react'
-import { Route, Routes } from 'react-router'
+import { Navigate, Route, Routes } from 'react-router'
 import AuthLayout from './components/Auth/AuthLayout'
 import AuthLogin from './pages/Auth/AuthLogin'
 import AuthRegister from './pages/Auth/AuthRegister'
@@ -88,7 +88,7 @@ function App() {
 
         <Route path='/unauth-page' element={<UnAuth/>}/>
 
-        <Route path="*" element={<Notfound/>}/>
+        <Route path="/" element={<Navigate to="/auth/login" replace />} />
         
       </Routes>
 

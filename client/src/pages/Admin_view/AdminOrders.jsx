@@ -1,8 +1,12 @@
+
+import Orders from '@/components/Admin/Orders'
 import React from 'react'
 
 function AdminOrders() {
   return (
-    <div>AdminOrders</div>
+    <div>
+      <Orders/>
+    </div>
   )
 }
 

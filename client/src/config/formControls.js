@@ -83,13 +83,12 @@ export const addProductFormElements = [
     label: "Size",
     componentType: "checkbox",
     options: [
-      {id: "xs",label: "XS"},
-      {id: "s",label: "S"},
-      {id: "m",label: "M"},
-      {id: "l",label: "L"},
-      {id: "xl",label: "XL"},
-      {id: "xll",label: "XLL"},
-      
+      { id: "xs", label: "XS" },
+      { id: "s", label: "S" },
+      { id: "m", label: "M" },
+      { id: "l", label: "L" },
+      { id: "xl", label: "XL" },
+      { id: "xll", label: "XLL" },
     ],
   },
   {
@@ -233,13 +232,75 @@ export const giftCardItems = [
     label: "Card Number",
     placeholder: "Enter your Card Number",
     component: "input",
-    type: "text"
+    type: "text",
   },
   {
     name: "cardpin",
     label: "Card Pin",
     placeholder: "Enter your Card Pin",
     component: "input",
-    type: "text"
-  }
+    type: "text",
+  },
+];
+
+export const addressFormControls = [
+  {
+    label: "Address",
+    name: "address",
+    componentType: "input",
+    type: "text",
+    placeholder: "Enter your address",
+  },
+  {
+    label: "City",
+    name: "city",
+    componentType: "input",
+    type: "text",
+    placeholder: "Enter your city",
+  },
+  {
+    label: "Phone",
+    name: "phone",
+    componentType: "input",
+    type: "text",
+    placeholder: "Enter your Phone",
+  },
+  {
+    label: "Pincode",
+    name: "pincode",
+    componentType: "input",
+    type: "text",
+    placeholder: "Enter your pincode",
+  },
+  {
+    label: "Address Type",
+    name: "addressType",
+    componentType: "select",
+    options: [
+      { id: "home", label: "Home" },
+      { id: "work", label: "Work" },
+    ],
+  },
+];
+
+export const profileItemFormControl = [
+  
+  {
+    name: "phone",
+    label: "Mobile Number",
+    placeholder: "Enter moibile Number",
+  },
+  {
+    name: "gender",
+    label: "Gender",
+    placeholder: "Enter Gender",
+    componentType: "select",
+    options: [
+      { id: "Male", label: "Male" },
+      { id: "Female", label: "Female" },
+      { id: "undefined", label: "undefined" },
+    ],
+  },
+  { name: "dob", label: "Date of Birth", placeholder: "Enter dob" },
+  { name: "location", label: "Location", placeholder: "Enter location" },
 ];

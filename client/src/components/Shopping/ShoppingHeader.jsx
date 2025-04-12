@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { Link, useNavigate, NavLink } from "react-router-dom";
+import { Link, useNavigate, NavLink, useLocation } from "react-router-dom";
 import { Sheet, SheetContent, SheetTrigger,SheetTitle,SheetDescription } from "../ui/sheet";
 import { Button } from "../ui/button";
 import {
@@ -29,28 +29,53 @@ import {
 import { logoutUser } from "@/store/auth";
 import CartWrapper from "./CartWrapper";
 import { fetchCart } from "@/store/shop/cart-slice";
+import { Label } from "../ui/label";
+
 
 
 
 
 
 function MenuItems() {
+
+  const navigate=useNavigate();
+  
+
+
+  function handleNavigate(item){
+    sessionStorage.removeItem('filters')
+    
+    const CurrentMenu=item?.id!=='home'?
+    {
+      category:[item?.id]
+    }:null
+    sessionStorage.setItem('filters',JSON.stringify(CurrentMenu))
+    navigate(item?.path)
+  }
+
+
   return (
     <nav className="flex flex-col mb-2 lg:mb-0 lg:items-center gap-9 lg:flex-row">
       {shopViewHeaderMenuItems.map((menuItems) => {
         return (
-          <NavLink
-            to={menuItems.path || "#"}
+          <Label
             className="font-semibold text-xl duration-200 text-muted-foreground hover:text-orange-500"
             key={menuItems.id}
+            onClick={()=>{
+            
+              handleNavigate(menuItems)
+            }}
           >
             {menuItems.label}
-          </NavLink>
+          </Label>
         );
       })}
     </nav>
   );
 }
+
+
+
 
 
 
@@ -71,7 +96,7 @@ function RightMenuItems() {
     dispatch(fetchCart(user?.id))
   },[dispatch,user?.id])
   
-  
+
 
   return (
     <div className="flex flex-col gap-5 p-6 items-start lg:flex-row lg:items-center">
@@ -125,7 +150,7 @@ function RightMenuItems() {
 
           <DropdownMenuItem onClick={()=>navigate('/shop/account')}>
             <User className="mr-2" />
-            Profile
+            Account
           </DropdownMenuItem>
           <DropdownMenuItem onClick={handleLogout}>
             <LogOut className="mr-2" />
@@ -139,12 +164,14 @@ function RightMenuItems() {
       <Sheet open={openCartSheet} onOpenChange={()=>setOpenCartSheet(false)}>
         <div className="relative rounded p-3 border border-gray-100 cursor-pointer" onClick={()=>setOpenCartSheet(true)}>
         <Badge className="absolute -top-1 -right-3 bg-yellow-300 rounded-full text-black">
-          {cartItems?.items?.length<1? 0: cartItems?.items?.length}
+          {cartItems?.items?.length || 0}
         </Badge>
         <ShoppingCart className="w-5 h-5" />
         <span className="sr-only">User cart</span>
         </div>
-        <CartWrapper cartItems={cartItems && cartItems.items && cartItems.items.length>0 ? cartItems.items : null}/>
+        <CartWrapper cartItems={cartItems && cartItems.items && cartItems.items.length>0 ? cartItems.items : null}
+          setOpenCartSheet={setOpenCartSheet}
+          />
       </Sheet>
     </div>
   );
@@ -152,6 +179,8 @@ function RightMenuItems() {
 
  
 function ShoppingHeader() {
+
+
   const { isAuthenticated } = useSelector((state) => state.auth);
 
   return (

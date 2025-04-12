@@ -1,7 +1,7 @@
 import bcrypt from "bcryptjs"
 import jwt from "jsonwebtoken"
 import { User } from "../../models/user.models.js";
-
+import {Profile} from "../../models/profile.models.js"
 
 
 // Register
@@ -31,7 +31,20 @@ const registerUser=async(req,res)=>{
             password:hashPassword
         })
         
-        await newUser.save()
+        const savedUser=await newUser.save()
+
+        const profile=new Profile({
+            userId:savedUser._id,
+            fullname:savedUser.username,
+            email:savedUser.email,
+            phone:"",
+            gender:"undefined",
+            dob:"",
+            location:"",
+            avatar:""
+        })
+
+        await profile.save();
 
         res.status(201).json({
             success:true,

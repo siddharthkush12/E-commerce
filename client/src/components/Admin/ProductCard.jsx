@@ -69,7 +69,6 @@ function ProductCard({ product, setFormData, setOpenCreateProducts, setCurrentEd
                 setOpenCreateProducts(true)
                 setCurrentEditedId(product?._id)
                 setFormData(product)
-
             }}
           >
             <Edit2 className="w-4 h-4" />

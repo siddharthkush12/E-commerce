@@ -21,7 +21,13 @@ import { Button } from '@/components/ui/button'
 import { Card, CardContent } from '@/components/ui/card'
 import { useDispatch, useSelector } from 'react-redux'
 import ShoppingProductCard from '@/components/Shopping/ShoppingProductCard'
-import { fetchFilteredProduct } from '@/store/shop/product-slice'
+import { clearProductDetails, fetchFilteredProduct, fetchProductDetails } from '@/store/shop/product-slice'
+import { useNavigate } from 'react-router'
+import { addToCart, fetchCart } from '@/store/shop/cart-slice'
+import { addWishlistProduct } from '@/store/shop/wishList-slice'
+import { toast } from 'sonner'
+import ProductDetails from '@/components/Shopping/ProductDetails'
+
 
 
 
@@ -47,14 +53,50 @@ const brands=[
 
 function ShoppingHome() {
   const [currentBanner,setCurrentBanner]=useState(0);
-  const {productList}=useSelector(state=>state.shopProduct)
+  const {productList,productDetails}=useSelector(state=>state.shopProduct)
   const {isLoading}=useSelector(state=>state.shopProduct)
-  // const {user}=useSelector(state=>state.auth)
+  const {user}=useSelector(state=>state.auth)
   const banners=[banner1,banner2,banner3,banner4,banner5]
-  const [currentProductView,setCurrentProductView]=useState(4);
-  const ProductPerPage=10;
+  const [currentProductView,setCurrentProductView]=useState(8);
+  const [openDetailsDialog,setOpenDetailsDialog]=useState(false);
+  
   const dispatch=useDispatch();
+  const navigate=useNavigate();
 
+
+  function handleNavigateToListingPage(categoryItem,currentSession){
+    sessionStorage.removeItem('filters');
+    const currentFilter={
+      [currentSession]:[categoryItem?.id]
+    }
+    sessionStorage.setItem('filters',JSON.stringify(currentFilter))
+    navigate('/shop/listing')
+  }
+
+  
+  function handleGetProductDetails(getCurrentProductId){
+    dispatch(fetchProductDetails(getCurrentProductId));
+    
+  }
+
+  
+  function handleAddToCart(getCurrentProductId){;
+    
+    dispatch(addToCart({userId:user?.id,productId:getCurrentProductId,quantity:1})).then((data)=>{
+      if(data?.payload?.success){
+        dispatch(fetchCart(user?.id))
+        toast("Product added to cart")
+      }
+    })
+  }
+
+  function handleAddToWishlist(getCurrentProductId){  
+    dispatch(addWishlistProduct({userId:user?.id,productId:getCurrentProductId})).then((data)=>{
+      if(data?.payload?.message){
+        toast(data?.payload?.message)
+      }
+    })
+  }
 
   
 
@@ -69,11 +111,18 @@ function ShoppingHome() {
     return ()=>clearInterval(timer)
   },[])
 
+  useEffect(()=>{
+      if(productDetails!==null){
+        setOpenDetailsDialog(true);
+      }
+  },[productDetails]) 
+
+
+
      
   return (
     <div className='flex flex-col min-h-screen'>
       {/* Banners */}
-
       <div className='relative w-full h-[600px] overflow-hidden'>
         {
           banners.map((item,index)=>{
@@ -104,7 +153,11 @@ function ShoppingHome() {
           { 
               categories.map((items,index)=>{
                 return(
-                  <Card key={index} className='cursor-pointer hover:shadow-xl transition-shadow'>
+                  <Card   
+                    key={index}
+                    className='cursor-pointer hover:shadow-xl transition-shadow'
+                    onClick={()=>handleNavigateToListingPage(items,'category')}
+                    >
                       <CardContent className='flex flex-col gap-2 w-full' >
                         <img
                           src={items.icon}
@@ -121,18 +174,18 @@ function ShoppingHome() {
       </div>
 
       {/* Brands */}
-      <div className='container mx-auto px-5 flex flex-col items-center gap-2'>
+      <div className='container mx-auto flex flex-col items-center gap-2'>
         <h3 className='text-center text-2xl md:text-3xl font-bold my-2'>Shop By Brands</h3>
-        <div className='grid grid-cols-2 mx-5 md:grid-cols-3 lg:grid-cols-6 gap-4 mb-5'>
+        <div className='grid grid-cols-2 md:mx-5 md:grid-cols-3 lg:grid-cols-6 gap-4 mb-5'>
           { 
               brands.map((items,index)=>{
                 return(
-                  <Card key={index} className='w-35 h-45 cursor-pointer hover:shadow-xl transition-shadow rounded-2xl flex items-center justify-center'>
+                  <Card key={index} className='w-43 h-45 cursor-pointer hover:shadow-xl transition-shadow rounded-2xl flex items-center justify-center' onClick={()=>handleNavigateToListingPage(items,'brand')}>
                       <div className='flex flex-col gap-2 p-5' >
                         <img
                           src={items.icon}
                           alt='image not found'
-                          className='w-30 h-22'
+                          className='w-35 h-22'
                         />
                         <span className='text-xl text-center'>{items.label}</span>
                       </div>
@@ -151,16 +204,30 @@ function ShoppingHome() {
               productList && productList?.length>0?
                 productList.slice(0,currentProductView).map((item)=>{
                   return (
-                    <ShoppingProductCard product={item} key={item?._id}/>
+                    <ShoppingProductCard product={item} key={item?._id} handleGetProductDetails={handleGetProductDetails} handleAddToCart={handleAddToCart} handleAddToWishlist={handleAddToWishlist}/>
                   )
                 })
               :null
+              
           }
+          {
+            
+            <ProductDetails 
+            productDetails={productDetails}
+            open={openDetailsDialog}
+            setOpen={(open)=>{
+              setOpenDetailsDialog(open)
+              if(!open) dispatch(clearProductDetails());
+            }
+          }
+          />
+        }
         </div>
+
         {
           currentProductView<productList.length &&
           <Button
-            onClick={()=>setCurrentProductView(prevView=>prevView+5)}
+            onClick={()=>setCurrentProductView(prevView=>prevView+4)}
             variant='outline'
             className='my-3'
             >

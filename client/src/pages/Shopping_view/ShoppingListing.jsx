@@ -139,7 +139,7 @@ function ShoppingListing() {
   
 
   return (
-    <div className='grid grid-cols-1 md:grid-cols-[220px_1fr] gap-2 p-2 md:p-3 ' >
+    <div className='grid grid-cols-1 md:grid-cols-[220px_1fr] gap-2 p-2 md:p-3' >
       {/* Column first (Filter of 200px) */}
       <ProductFilter filters={filters} handleFilter={handleFilterProduct}/>
       
@@ -185,7 +185,9 @@ function ShoppingListing() {
               )
             }):null
           }
+          
           {/* Product details dialoag */}
+          
           <ProductDetails 
             productDetails={productDetails}
             open={openDetailsDialog}

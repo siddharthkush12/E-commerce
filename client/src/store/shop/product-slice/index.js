@@ -4,7 +4,8 @@ import axios from "axios";
 const initialState = {
   isLoading: false,
   productList: [],
-  productDetails:null
+  productDetails:null,
+
 };
 
 
@@ -39,6 +40,7 @@ const shopProductSlice = createSlice({
   reducers: {
       clearProductDetails:(state)=>{
         state.productDetails=null;
+
     }
   },
   extraReducers: (builder) => {

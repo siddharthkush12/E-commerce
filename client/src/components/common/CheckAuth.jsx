@@ -6,10 +6,6 @@ function CheckAuth({isAuthenticated,user,children}) {
   const location = useLocation();
   const path = location.pathname;
   
-  // console.log("Authenticated:", isAuthenticated);
-  // console.log("User:", user?.role);
-  // console.log("Role:", user?.role);
-  // console.log("Path:", path);
 
   if (!isAuthenticated && !path.includes('/auth')) {
     return <Navigate to='/auth/login' />;
