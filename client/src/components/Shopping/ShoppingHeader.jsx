@@ -30,6 +30,7 @@ import { logoutUser } from "@/store/auth";
 import CartWrapper from "./CartWrapper";
 import { fetchCart } from "@/store/shop/cart-slice";
 import { Label } from "../ui/label";
+import { fetchProfile } from "@/store/shop/profile-slice";
 
 
 
@@ -97,7 +98,7 @@ function RightMenuItems() {
 
   useEffect(()=>{
     dispatch(fetchCart(user?.id))
-    // dispatch(profileList(user?.id))
+    dispatch(fetchProfile(user?.id))
   },[dispatch,user?.id])
   
 
