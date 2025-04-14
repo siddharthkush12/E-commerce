@@ -1,7 +1,10 @@
 import { Copyright } from 'lucide-react';
 import React from 'react';
 
+
 function ShoppingFooter() {
+  
+
   return (
     <div className='border shadow flex flex-col items-center justify-center w-full bg-gradient-to-b from-orange-100 to-orange-200'>
       {/* Subscribe Section */}
@@ -36,7 +39,7 @@ function ShoppingFooter() {
             <div className='flex flex-col'>
               <h5 className='font-semibold mb-2'>Quick Links</h5>
               <ul className='space-y-1 text-muted-foreground'>
-                <li><a href='#' className='hover:text-white'>Home</a></li>
+                <li><a href='/shop/home' className='hover:text-white'>Home</a></li>
                 <li><a href='#' className='hover:text-white'>Shop</a></li>
                 <li><a href='#' className='hover:text-white'>Contact</a></li>
               </ul>
@@ -56,9 +59,9 @@ function ShoppingFooter() {
             <div className='flex flex-col'>
               <h5 className='font-semibold mb-2'>Stay Connected</h5>
               <ul className='space-y-1 text-muted-foreground'>
-                <li><a href='#' className='hover:text-white'>Facebook</a></li>
-                <li><a href='#' className='hover:text-white'>Instagram</a></li>
-                <li><a href='#' className='hover:text-white'>Twitter</a></li>
+                <li><a href='https://www.linkedin.com/in/siddharth02022002/' className='hover:text-white'>Linkedin</a></li>
+                <li><a href='https://www.instagram.com/siddharth_kush2002/' className='hover:text-white'>Instagram</a></li>
+                <li><a href='https://twitter.com/siddharth_kush' className='hover:text-white'>Twitter</a></li>
               </ul>
             </div>
           </div>
