@@ -15,7 +15,7 @@ const app=express();
 
 app.use(
     cors({
-        origin:['http://localhost:5173','https://e-commerce-front-eta-rosy.vercel.app/'],
+        origin:'http://localhost:5173',
         methods:['GET','POST','DELETE','PUT'],
         allowedHeaders:[
             "Content-Type",
