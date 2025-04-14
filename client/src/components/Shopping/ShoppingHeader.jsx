@@ -8,6 +8,7 @@ import {
   Gift,
   Heart,
   LogOut,
+  Map,
   MapPinHouse,
   Menu,
   PiggyBank,
@@ -31,6 +32,9 @@ import CartWrapper from "./CartWrapper";
 import { fetchCart } from "@/store/shop/cart-slice";
 import { Label } from "../ui/label";
 import { fetchProfile } from "@/store/shop/profile-slice";
+import { Dialog,} from "../ui/dialog";
+import GooglemapShopListing from "./GooglemapShopListing";
+import Contact from "./Contact";
 
 
 
@@ -63,8 +67,8 @@ function MenuItems() {
             className="font-semibold text-xl duration-200 text-muted-foreground hover:text-orange-500"
             key={menuItems.id}
             onClick={()=>{
-            
               handleNavigate(menuItems)
+              setSheetOpen(false)
             }}
           >
             {menuItems.label}
@@ -77,9 +81,6 @@ function MenuItems() {
 
 
 
-
-
-
 function RightMenuItems() {
   const { user } = useSelector((state) => state.auth);
   const {cartItems}=useSelector(state=>state.shopCart);
@@ -87,7 +88,8 @@ function RightMenuItems() {
   const [openCartSheet,setOpenCartSheet]=useState(false);
   const {profileList}=useSelector(state=>state.shopProfile);
 
-
+  const [googleMapDialogOpen,setGoogleMapDialog]=useState(false)
+  const [contactOpen,setContactOpen]=useState(false)
 
   const navigate=useNavigate();
   const dispatch=useDispatch();
@@ -137,7 +139,7 @@ function RightMenuItems() {
             <PiggyBank />
             Closify Wallet
           </DropdownMenuItem>
-          <DropdownMenuItem>
+          <DropdownMenuItem onClick={()=>setContactOpen(true)}>
             <CircleHelp />
             Contact Us
           </DropdownMenuItem>
@@ -147,10 +149,11 @@ function RightMenuItems() {
             <CreditCard />
             Saved Cards
           </DropdownMenuItem>
-          <DropdownMenuItem>
-            <MapPinHouse />
-            Address
+          <DropdownMenuItem onClick={()=>setGoogleMapDialog(true)}>
+            <Map />
+            Offline Stores
           </DropdownMenuItem>
+
           <DropdownMenuSeparator />
 
           <DropdownMenuItem onClick={()=>navigate('/shop/account')}>
@@ -178,13 +181,27 @@ function RightMenuItems() {
           setOpenCartSheet={setOpenCartSheet}
           />
       </Sheet>
+
+
+      {/* Google Map Integration */}
+      <Dialog open={googleMapDialogOpen} onOpenChange={()=>{
+        setGoogleMapDialog(false)
+        }}>
+        <GooglemapShopListing/>
+      </Dialog>
+
+      {/* Contact Dialog */}
+      <Dialog open={contactOpen} onOpenChange={setContactOpen}>
+        <Contact/>
+      </Dialog>
+
     </div>
   );
 }
 
  
 function ShoppingHeader() {
-
+  const [sheetOpen,setSheetOpen]=useState(false);
 
   const { isAuthenticated } = useSelector((state) => state.auth);
 
