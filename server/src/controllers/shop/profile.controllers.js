@@ -1,4 +1,5 @@
 import { Profile } from "../../models/profile.models.js";
+import { uploadOnCloudinary } from "../../utils/cloudinary.js";
 
 
 
@@ -74,8 +75,31 @@ const editProfile=async(req,res)=>{
     }
 }
 
+const handleAvtarUpload=async(req,res)=>{
+    try {
+        const localPath=req.file?.path;
+        const result=await uploadOnCloudinary(localPath)
+        if(!result) return res.status(400).json({
+            success:false,
+            message:"Error in upload in cloudinary"
+        })
+
+        return res.status(200).json({
+            success:true,
+            result
+        })
+        
+    } catch (error) {
+        console.log(error);
+        res.status(500).json({
+            success:false,
+            message:"Error in avtar upload"
+        })
+    }
+}
 
 
 
 
-export {editProfile,fetchProfile}
+
+export {editProfile,fetchProfile,handleAvtarUpload}

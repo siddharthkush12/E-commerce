@@ -1,6 +1,5 @@
 import React, { useEffect, useState } from 'react'
 import { Card, CardContent, CardFooter, CardHeader, CardTitle } from '../ui/card'
-import { Avatar } from '../ui/avatar'
 import { Separator } from '../ui/separator'
 import { useDispatch, useSelector } from 'react-redux'
 import { Button } from '../ui/button'
@@ -8,6 +7,7 @@ import Form from '../common/Form'
 import { profileItemFormControl } from '@/config/formControls'
 import { editProfile, fetchProfile } from '@/store/shop/profile-slice'
 import { toast } from 'sonner'
+import AvatarUpload from './AvatarUpload'
 
 
 const initialFormData={
@@ -25,6 +25,9 @@ function Profile() {
   const [formData,setFormData]=useState(initialFormData);
   const {profileList}=useSelector(state=>state.shopProfile)
   const dispatch=useDispatch();
+
+  console.log(profileList);
+  
 
 
   const profileItem=[
@@ -56,11 +59,8 @@ function Profile() {
   return (
     <Card className="w-full shadow-xl">
       <CardHeader>
-        <div className="flex justify-center my-4">
-          <Avatar className="h-24 w-24">
-            <img src="/avatar.jpg" alt="User Avatar" className="object-cover rounded-full" />
-          </Avatar>
-        </div>
+        <AvatarUpload />
+        
         <CardTitle className="text-2xl font-semibold text-primary">Profile Details</CardTitle>
         <Separator className="mt-2" />
       </CardHeader>

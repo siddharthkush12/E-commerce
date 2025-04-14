@@ -4,6 +4,7 @@ import { Product } from "../../models/product.models.js";
 
 const getFilteredProducts=async(req,res)=>{
     try {
+        
         const {category=[],brand=[],sortBy="price_lowtohigh"}=req.query;
 
         let filters = {};

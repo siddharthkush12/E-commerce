@@ -47,13 +47,13 @@ function ImageUpload({
       const data = new FormData();
       data.append("imageFile", imageFile);
       const response = await axios.post(
-        "http://localhost:8000/api/admin/products/upload_image",
+        `${import.meta.env.VITE_BACKEND}/api/admin/products/upload_image`,
         data,
         {
           headers: { "Content-Type": "multipart/form-data" },
         }
       );
-      // console.log(response.data.result.url);
+      
 
       if (response.data?.success) {
         setUploadedImageUrl(response.data.result.url);

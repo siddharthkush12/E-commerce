@@ -16,7 +16,7 @@ function ShoppingAccount() {
 
       <div className='container mx-auto grid grid-cols-1 gap-8 py-8 px-2'>
         <div className='flex flex-col rounded-lg bg-background'>
-          <Tabs defaultValue="orders" className='flex md:flex-row p-1'>
+          <Tabs defaultValue="profile" className='flex md:flex-row p-1'>
             <TabsList className='flex md:flex-col md:h-30 border'>
               <TabsTrigger value="profile" className='w-full'>Profile</TabsTrigger>
               <TabsTrigger value="orders" className='w-full'>Orders</TabsTrigger>

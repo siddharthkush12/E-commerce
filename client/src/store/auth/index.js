@@ -1,5 +1,9 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import axios from "axios";
+// import dotenv from 'dotenv';
+// dotenv.config({
+//     path:'./.env'
+// });
 
 
 const initialState={
@@ -8,10 +12,11 @@ const initialState={
     user:null
 }
 
+console.log('Backend URL:', import.meta.env.VITE_BACKEND);
 
 export const loginUser=createAsyncThunk('/auth/login',
     async(formData)=>{
-        const response=await axios.post('http://localhost:8000/api/auth/login',formData,{
+        const response=await axios.post(`${import.meta.env.VITE_BACKEND}/api/auth/login`,formData,{
             withCredentials:true,
             
         });
@@ -21,7 +26,7 @@ export const loginUser=createAsyncThunk('/auth/login',
 )
 export const logoutUser=createAsyncThunk('/auth/logout',
     async()=>{
-        const response=await axios.post('http://localhost:8000/api/auth/logout',{},{
+        const response=await axios.post(`${import.meta.env.VITE_BACKEND}/api/auth/logout`,{},{
             withCredentials:true,
             
         });
@@ -31,7 +36,7 @@ export const logoutUser=createAsyncThunk('/auth/logout',
 
 export const registerUser=createAsyncThunk('/auth/register',
     async(formData)=>{
-        const response=await axios.post('http://localhost:8000/api/auth/register',formData,{
+        const response=await axios.post(`${import.meta.env.VITE_BACKEND}/api/auth/register`,formData,{
             withCredentials:true,
         });
         return response.data;
@@ -40,7 +45,7 @@ export const registerUser=createAsyncThunk('/auth/register',
 
 export const checkAuth=createAsyncThunk('/auth/checkAuth',
     async()=>{
-        const response=await axios.get('http://localhost:8000/api/auth/checkAuth',{
+        const response=await axios.get(`${import.meta.env.VITE_BACKEND}/api/auth/checkAuth`,{
             withCredentials:true,
             headers:{
                 'Cache-control':'no-store, no-cache, must-revalidate,proxy-revalidate',

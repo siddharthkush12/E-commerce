@@ -134,7 +134,8 @@ function ShoppingListing() {
     }
   },[productDetails]) 
 
-
+  console.log(sessionStorage.getItem("filters"));
+  
   
   
 

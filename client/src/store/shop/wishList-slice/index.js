@@ -11,7 +11,7 @@ export const addWishlistProduct = createAsyncThunk(
   "/wishlist/add",
   async ({userId,productId}) => {
     const response = await axios.post(
-      "http://localhost:8000/api/shop/wishlist/add",
+      `${import.meta.env.VITE_BACKEND}/api/shop/wishlist/add`,
       {userId,productId},
     );
     return response?.data;
@@ -21,7 +21,7 @@ export const addWishlistProduct = createAsyncThunk(
 export const fetchWishlistProduct = createAsyncThunk("/shop/wishlist/fetchWishlistProduct", async (userId) => {
 
   const response = await axios.get(
-    `http://localhost:8000/api/shop/wishlist/get/${userId}`
+    `${import.meta.env.VITE_BACKEND}/api/shop/wishlist/get/${userId}`
   );
   // console.log(response?.data);
   return response?.data;
@@ -31,7 +31,7 @@ export const fetchWishlistProduct = createAsyncThunk("/shop/wishlist/fetchWishli
 export const deleteWishlistProduct = createAsyncThunk("/shop/wishlist/deleteWishlistProduct", async ({userId,productId}) => {
 
   const response = await axios.post(
-    `http://localhost:8000/api/shop/wishlist/remove/${userId}/${productId}`,
+    `${import.meta.env.VITE_BACKEND}/api/shop/wishlist/remove/${userId}/${productId}`,
     
   );
   // console.log(response?.data);
