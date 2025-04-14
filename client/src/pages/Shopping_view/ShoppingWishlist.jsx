@@ -1,5 +1,6 @@
 import WishlistCard from '@/components/Shopping/WishlistCard';
-import { deleteWishlistProduct, fetchWishlistProduct } from '@/store/shop/wishList-slice';
+import { addToCart, fetchCart } from '@/store/shop/cart-slice';
+import { addWishlistProduct, deleteWishlistProduct, fetchWishlistProduct } from '@/store/shop/wishList-slice';
 import React, { useEffect } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { toast } from 'sonner';
@@ -20,6 +21,16 @@ function ShoppingWishlist() {
         toast("Product Removed Successfully")
       }
       
+    })
+  }
+
+  function handleProductAddtoCart(getCurrentProductId){
+    dispatch(addToCart({userId:user?.id,productId:getCurrentProductId,quantity:1}))
+    .then((data)=>{
+      if(data?.payload?.success){
+        dispatch(fetchCart(user?.id))
+        toast("Product added to cart successfully")
+      }
     })
   }
 
@@ -44,7 +55,7 @@ function ShoppingWishlist() {
                 // console.log(items);
                 return(
                   <div key={items._id}>
-                    <WishlistCard product={items} handleProductDelete={handleProductDelete}/>
+                    <WishlistCard product={items} handleProductDelete={handleProductDelete} handleProductAddtoCart={handleProductAddtoCart}/>
                   </div>
                 )
               }):null

@@ -40,6 +40,7 @@ function ShoppingListing() {
   const [sortProduct,setSortProduct]=useState(null);
   const [searchParams,setSearchParams]=useSearchParams();
   const [openDetailsDialog,setOpenDetailsDialog]=useState(false)
+
   
   
 
@@ -113,10 +114,12 @@ function ShoppingListing() {
   },[])
 
 
+
   useEffect(()=>{
     if(filters && Object.keys(filters).length >0){
       const queryString=createSearchParamHelper(filters);
       setSearchParams(new URLSearchParams(queryString));
+      
     }
   },[filters])
 
@@ -135,12 +138,15 @@ function ShoppingListing() {
   },[productDetails]) 
 
   console.log(sessionStorage.getItem("filters"));
+  const newFilter=sessionStorage.getItem("filters");
+  console.log(newFilter);
   
+
   
   
 
   return (
-    <div className='grid grid-cols-1 md:grid-cols-[220px_1fr] gap-2 p-2 md:p-3' >
+    <div className='grid grid-cols-1 md:grid-cols-[220px_1fr] gap-2 p-2 md:p-3 md:min-h-[90vh]' >
       {/* Column first (Filter of 200px) */}
       <ProductFilter filters={filters} handleFilter={handleFilterProduct}/>
       

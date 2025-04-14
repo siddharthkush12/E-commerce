@@ -68,7 +68,7 @@ function MenuItems() {
             key={menuItems.id}
             onClick={()=>{
               handleNavigate(menuItems)
-              setSheetOpen(false)
+              
             }}
           >
             {menuItems.label}

@@ -8,6 +8,7 @@ import { useDispatch, useSelector } from 'react-redux'
 import { addWishlistProduct } from '@/store/shop/wishList-slice'
 import { toast } from 'sonner'
 import { addToCart, fetchCart } from '@/store/shop/cart-slice'
+import { useNavigate } from 'react-router'
 
 
 
@@ -17,7 +18,7 @@ import { addToCart, fetchCart } from '@/store/shop/cart-slice'
 function ProductDetails({productDetails, open, setOpen}) {
 
   const {user}=useSelector(state=>state.auth);
- 
+    const navigate=useNavigate();
 
   
   const dispatch=useDispatch();
@@ -104,8 +105,8 @@ function ProductDetails({productDetails, open, setOpen}) {
                             <ShoppingBag />
                             Add to Cart
                         </Button>
-                        <Button variant="destructive" size="sm" className="xs:w-auto cursor-pointer">
-                            <ShoppingCart/>
+                        <Button variant="destructive" size="sm" className="xs:w-auto cursor-pointer" onClick={()=>navigate('/shop/checkout')}>
+                            <ShoppingCart />
                             Buy Now
                         </Button>
                     </div>

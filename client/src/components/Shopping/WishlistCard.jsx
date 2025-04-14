@@ -5,7 +5,7 @@ import { Badge } from "../ui/badge";
 import { ShoppingCart, Trash2} from "lucide-react";
 import { useSelector } from "react-redux";
 
-function WishlistCard({ product ,handleProductDelete}) {
+function WishlistCard({ product ,handleProductDelete, handleProductAddtoCart}) {
 
   const discount = product?.price && product?.saleprice? 
                    Math.round(((product.price - product.saleprice) / product.price) * 100) : 0;
@@ -72,6 +72,7 @@ function WishlistCard({ product ,handleProductDelete}) {
             size="sm"
             variant="secondary"
             className="flex items-center gap-1 cursor-pointer"
+            onClick={()=>handleProductAddtoCart(product?._id)}
           >
             <ShoppingCart className="w-4 h-4" />
             Move to cart
