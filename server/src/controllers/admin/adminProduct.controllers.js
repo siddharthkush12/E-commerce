@@ -125,6 +125,7 @@ const editProduct=async(req,res)=>{
 
 // Delete Product by admin
 
+
 const deleteProduct=async(req,res)=>{
   try {
     const {id}=req.params;

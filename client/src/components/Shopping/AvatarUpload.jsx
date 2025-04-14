@@ -1,38 +1,48 @@
-import React, { useRef, useState } from 'react'
-import { Avatar } from '../ui/avatar'
-import { Button } from '../ui/button'
+import React, { useEffect, useRef, useState } from 'react'
+import { Avatar, AvatarFallback, AvatarImage } from '../ui/avatar'
+import axios from 'axios'
+import { useDispatch, useSelector } from 'react-redux'
 
-function AvatarUpload() {
+
+function AvatarUpload({imageFile,setAvatarUploadUrl,setErrorInUpload,setAvatarIsLoading}) {
     const inputRef = useRef(null)
-    const [imageFile, setImageFile] = useState(null)
-    const [isLoading,setIsLoading]=useState(false)
-    const [errorInUpload,setErrorInUpload]=useState(false)
-
-    // console.log(imageFile);
+    const [localImageFile, setLocalImageFile] = useState(null)
+    const {user}=useSelector(state=>state.auth);
+    
 
     function handleImageFileChange(e) {
         const selectedFile = e.target.files?.[0];
-        if (selectedFile) setImageFile(selectedFile);
+        if (selectedFile) setLocalImageFile(selectedFile);
+        // console.log(selectedFile);
     }
-
-
-    function handleAvtarChange() {
-        
-        
-
+    
+    async function uploadImageToCloudinary() {
+        setAvatarIsLoading(true)
+        setErrorInUpload(false)
         try {
-            setIsLoading(true)
-            setErrorInUpload(false)
+            const data=new FormData();
             
+            data.append("avatarFile",localImageFile);
+            const response=await axios.post(`${import.meta.env.VITE_BACKEND}/api/shop/profile/upload_avtar`,data,
+                {
+                    headers: { "Content-Type": "multipart/form-data" },
+                }
+            )
+            if(response.data?.success){
+                setAvatarUploadUrl(response.data.result.url);
+                setAvatarIsLoading(false)
+            }
         } catch (error) {
-            console.log(error)
-            setErrorInUpload(true)            
-        }finally{
-            setIsLoading(false)
+            console.log(error);
+            setErrorInUpload(true);
         }
-
     }
 
+    useEffect(()=>{
+        if(localImageFile!==null){
+            uploadImageToCloudinary();
+        }
+    },[localImageFile])
 
 
   return (
@@ -40,10 +50,12 @@ function AvatarUpload() {
         <input type="file" id='avatar' className='hidden' ref={inputRef} onChange={handleImageFileChange}/>
         <label htmlFor='avatar' className='cursor-pointer'>
             <Avatar className="relative h-24 w-24">
-                <img htmlFor='avatar' src="/avatar.jpg" alt="User Avatar" className="object-cover rounded-full" />
+                <AvatarImage src={imageFile}/>
+                <AvatarFallback className='text-amber-500 font-black text-6xl'>{user?.username[0]}</AvatarFallback>
+                
             </Avatar>
         </label>
-        <Button  variant='outline' className='cursor-pointer' onClick={()=>handleAvtarChange()}>Edit Avatar</Button>
+       
     </div>
   )
 }

@@ -38,7 +38,7 @@ const fetchProfile=async(req,res)=>{
 const editProfile=async(req,res)=>{
     try {
         const {userId}=req.params;
-        const {phone,gender,dob,location}=req.body;
+        const {phone,gender,dob,location,avatar}=req.body;
         
         if(!userId||!phone||!gender||!dob||!location){
             return res.status(400).json({
@@ -54,7 +54,7 @@ const editProfile=async(req,res)=>{
                 message:"Profile not found"
             })
         }
-
+        profile.avatar=avatar || profile.avatar;
         profile.phone = phone || profile.phone;
         profile.gender = gender || profile.gender;
         profile.dob = dob || profile.dob;

@@ -12,6 +12,7 @@ export const fetchProfile=createAsyncThunk('/profile/fetchProfile',async(userId)
     const response =await axios.get(`${import.meta.env.VITE_BACKEND}/api/shop/profile/fetch/${userId}`)
     return response.data;
 })
+
 export const editProfile=createAsyncThunk('/profile/editProfile',async({userId,formData})=>{
     const response =await axios.put(`${import.meta.env.VITE_BACKEND}/api/shop/profile/edit/${userId}`,formData)
     return response.data;

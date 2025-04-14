@@ -3,7 +3,6 @@ import jwt from "jsonwebtoken"
 import { User } from "../../models/user.models.js";
 import {Profile} from "../../models/profile.models.js"
 
-
 // Register
 
 const registerUser=async(req,res)=>{

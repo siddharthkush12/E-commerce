@@ -12,7 +12,7 @@ const initialState={
     user:null
 }
 
-console.log('Backend URL:', import.meta.env.VITE_BACKEND);
+// console.log('Backend URL:', import.meta.env.VITE_BACKEND);
 
 export const loginUser=createAsyncThunk('/auth/login',
     async(formData)=>{

@@ -25,8 +25,12 @@ function Profile() {
   const [formData,setFormData]=useState(initialFormData);
   const {profileList}=useSelector(state=>state.shopProfile)
   const dispatch=useDispatch();
+  const [errorAvatarInUpload,setAvatarErrorInUpload]=useState(false) 
+  const [avatarUploadUrl,setAvatarUploadUrl]=useState(null)
+  const [isAvatarLoading,setAvatarIsLoading]=useState(false)
 
-  console.log(profileList);
+
+  // console.log(profileList);
   
 
 
@@ -38,7 +42,7 @@ function Profile() {
     { label: 'Date of Birth', value: profileList?.dob || 'Not Provided' },
     { label: 'Location', value: profileList?.location || 'Not Provided' },
   ]
- 
+
 
   function handleEditProfile(e){
     e.preventDefault();
@@ -51,7 +55,42 @@ function Profile() {
       }
     })
   }
+
+  // console.log(avatarUploadUrl);
   
+  
+  function handleAvtarChange(e) {
+          try {
+              e.preventDefault();
+              
+              if(avatarUploadUrl!==null){
+                  const updatedFormData={
+                    phone:profileList.phone,
+                    gender:profileList.gender,
+                    dob:profileList.dob,
+                    location:profileList.location,
+                    avatar:avatarUploadUrl,
+                  };
+                  dispatch(editProfile({userId:user?.id,formData:updatedFormData}))
+                  .then((data)=>{
+                    if(data?.payload?.success){
+                      console.log(data?.payload);
+                      dispatch(fetchProfile(user?.id))
+                    }
+                  })
+              }
+              
+          } catch (error) {
+              console.log(error)
+              setAvatarErrorInUpload(true)            
+          }finally{
+              setAvatarIsLoading(false)
+          }
+  
+      }
+
+
+
   useEffect(()=>{
     dispatch(fetchProfile(user?.id))
   },[dispatch])
@@ -59,8 +98,18 @@ function Profile() {
   return (
     <Card className="w-full shadow-xl">
       <CardHeader>
-        <AvatarUpload />
-        
+        <div className='flex flex-col items-center justify-center'>
+          <AvatarUpload imageFile={profileList?.avatar} setAvatarUploadUrl={setAvatarUploadUrl} setErrorInUpload={setAvatarErrorInUpload} setAvatarIsLoading={setAvatarIsLoading}/>
+          {
+            isAvatarLoading && 
+            <div>Avatar is Loading.....</div>
+          }
+          {
+            errorAvatarInUpload &&
+            <div>Error in Uploading Avatar. Try again</div>
+          }
+          <Button  variant='outline' className='cursor-pointer' onClick={(e)=>handleAvtarChange(e)}>{avatarUploadUrl===null?"Edit Avatar":"Click to change Avatar"}</Button>
+        </div>
         <CardTitle className="text-2xl font-semibold text-primary">Profile Details</CardTitle>
         <Separator className="mt-2" />
       </CardHeader>
@@ -95,6 +144,7 @@ function Profile() {
         onClick={()=>{
           setIsEditedMode(true)
           setFormData({
+            avatar:profileList.avatar,
             phone:profileList.phone,
             gender:profileList.gender,
             dob:profileList.dob,

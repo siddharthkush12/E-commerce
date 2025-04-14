@@ -40,7 +40,7 @@ function MenuItems() {
 
   const navigate=useNavigate();
   
-
+  
 
   function handleNavigate(item){
     sessionStorage.removeItem('filters')
@@ -84,6 +84,9 @@ function RightMenuItems() {
   const {cartItems}=useSelector(state=>state.shopCart);
 
   const [openCartSheet,setOpenCartSheet]=useState(false);
+  const {profileList}=useSelector(state=>state.shopProfile);
+
+
 
   const navigate=useNavigate();
   const dispatch=useDispatch();
@@ -105,7 +108,7 @@ function RightMenuItems() {
       <DropdownMenu>
         <DropdownMenuTrigger asChild>
           <Avatar className="h-10 w-10 cursor-pointer">
-            <AvatarImage src="/avatar.jpg"></AvatarImage>
+            <AvatarImage src={profileList?.avatar}></AvatarImage>
             <AvatarFallback className="text-3xl bg-orange-300">
               {user?.username?.[0]?.toUpperCase() || ''}
             </AvatarFallback>
