@@ -97,6 +97,7 @@ function RightMenuItems() {
 
   useEffect(()=>{
     dispatch(fetchCart(user?.id))
+    dispatch(profileList(user?.id))
   },[dispatch,user?.id])
   
 
