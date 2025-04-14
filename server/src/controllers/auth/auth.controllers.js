@@ -83,7 +83,7 @@ const loginUser=async(req,res)=>{
             role:existingUser.role,
             email:existingUser.email,
             username:existingUser.username
-        },'CLIENT_SECRET_KEY',{expiresIn:'60m'})
+        },process.env.JWT_SECRET,{expiresIn:'60m'})
         // console.log(token);
         
         res.cookie("token",token,{
