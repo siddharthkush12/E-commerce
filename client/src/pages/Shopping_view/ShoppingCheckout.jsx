@@ -13,6 +13,7 @@ function ShoppingCheckout() {
   const {user}=useSelector((state)=>state.auth);
 
  
+  console.log(addressSelected);
   
 
   function handleBreadCrumbClick(currentState) {
@@ -54,7 +55,14 @@ function ShoppingCheckout() {
         <>
         <Orders setActiveState={setActiveState}/>
         <div className='flex flex-col items-center my-5'>
-          <Button variant='outline' onClick={()=>setActiveState("address")}>Click To Proceed</Button>
+          <Button variant='outline' onClick={()=>{
+            if(cartItems&& cartItems?.items && cartItems?.items?.length>0)
+              setActiveState("address")
+            else{
+              alert("Please Add Products to Proceed")
+            }
+
+          }}>Click To Proceed</Button>
         </div>
         
         </>
@@ -66,11 +74,17 @@ function ShoppingCheckout() {
           addressSelected={addressSelected}
         />
         <div className='flex flex-col items-center mt-5'>
-          <Button variant='outline' onClick={()=>setActiveState("payment")}>Continue</Button>
+          <Button variant='outline' 
+          onClick={()=>{
+            if(addressSelected!==null)
+              setActiveState("payment")
+            else{
+              alert("Please Select Address to Proceed")
+            }
+            
+            }}>Continue</Button>
         </div>
-
         </>
-        
       }
       {
         activeState==='payment' && <Payment addressInfo={addressSelected} cartItems={cartItems} user={user}/>

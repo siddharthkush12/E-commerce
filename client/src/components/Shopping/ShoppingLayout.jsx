@@ -2,7 +2,7 @@ import React from 'react'
 import { Outlet } from 'react-router'
 import ShoppingHeader from './ShoppingHeader'
 import ShoppingFooter from './ShoppingFooter'
-import { useSelector } from 'react-redux'
+
 
 function ShoppingLayout() {
   
