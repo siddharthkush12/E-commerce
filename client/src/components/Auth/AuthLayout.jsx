@@ -5,7 +5,7 @@ function AuthLayout() {
   return (
     <div className="relative flex min-h-screen w-full items-center justify-center overflow-hidden">
       <img 
-        src="/authback1.png" 
+        src="/authback1.jpg" 
         alt="Background" 
         className="absolute h-full w-full  blur-md" 
       />
