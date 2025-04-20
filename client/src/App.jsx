@@ -24,14 +24,13 @@ import GiftCard from './pages/Shopping_view/GiftCard'
 import Wallet from './pages/Shopping_view/Wallet'
 import RazorpayReturn from './pages/Shopping_view/RazorpayReturn'
 
-
 function App() {
-  const {isAuthenticated,user,isLoading}=useSelector((state)=>state.auth);
-  const dispatch=useDispatch();
+  const { isAuthenticated, user, isLoading } = useSelector((state) => state.auth);
+  const dispatch = useDispatch();
   
-  useEffect(()=>{
+  useEffect(() => {
     dispatch(checkAuth())
-  },[dispatch])
+  }, [dispatch])
   
   if (isLoading) {
     return (
@@ -46,12 +45,9 @@ function App() {
       </div>
     );
   }
-  
-
 
   return (
     <div className='flex flex-col overflow-hidden bg-background'>
-      {/* <h1>Header comp</h1> */}
       <Routes>
 
         {/* Auth */}
@@ -59,13 +55,13 @@ function App() {
           <CheckAuth isAuthenticated={isAuthenticated} user={user}>
             <AuthLayout/>
           </CheckAuth>
-        }>                    
+        }>
           <Route path='login' element={<AuthLogin/>}/>
           <Route path='register' element={<AuthRegister/>}/>
         </Route> 
 
-        {/* admin */}
-        <Route path="/admin"  element={
+        {/* Admin */}
+        <Route path="/admin" element={
           <CheckAuth isAuthenticated={isAuthenticated} user={user}>
             <AdminLayout/>
           </CheckAuth>
@@ -76,8 +72,8 @@ function App() {
           <Route path='products' element={<AdminProduct/>}/>
         </Route>
 
-        {/* shop */}
-        <Route path="/shop"  element={
+        {/* Shopping */}
+        <Route path="/shop" element={
           <CheckAuth isAuthenticated={isAuthenticated} user={user}>
             <ShoppingLayout/>
           </CheckAuth>
@@ -90,16 +86,17 @@ function App() {
           <Route path='giftcard' element={<GiftCard/>}/>
           <Route path='wallet' element={<Wallet/>}/>
           <Route path='razorpayreturn' element={<RazorpayReturn/>}/>
-
-     
         </Route>
 
-        <Route path='/unauth-page' element={<UnAuth/>}/>
+        <Route path='/unauth-page' element={<UnAuth/>} />
 
-        <Route path="/" element={<Navigate to="/auth/login" replace />} />
-        
+        {/* Updated root route to redirect to /shop/home */}
+        <Route path="/" element={<Navigate to="/shop/home" replace />} />
+
+        {/* Optional: catch all unmatched routes */}
+        <Route path="*" element={<Notfound />} />
+
       </Routes>
-
     </div>
   )
 }

@@ -57,7 +57,7 @@ const loadRazorpayScript = () => {
       orderStatus:'Pending',
       totalAmount,
       paymentMethod:'Razorpay',
-      paymentStatus:'Pending',
+      paymentStatus:'Paid',
       orderDate:new Date(),
       orderUpdateDate:new Date(),
       paymentId:'',
@@ -89,7 +89,7 @@ const loadRazorpayScript = () => {
             dispatch(captureOrder({razorpay_payment_id:response.razorpay_payment_id,razorpay_order_id:response.razorpay_order_id,razorpay_signature:response.razorpay_signature,orderId:data.payload.orderId}))
             .then((data)=>{
               if(data?.payload?.success){
-                dispatch(fetchCart({userId:user?.id}))
+                dispatch(fetchCart(user?.id))
                 navigate('/shop/razorpayreturn')
               }  
             })
@@ -145,7 +145,7 @@ const loadRazorpayScript = () => {
     dispatch(createCOD(orderData))
     .then((data)=>{
       if(data?.payload?.success){
-        dispatch(fetchCart({userId:user?.id}))
+        dispatch(fetchCart(user?.id))
         navigate('/shop/razorpayreturn')
       }
     })

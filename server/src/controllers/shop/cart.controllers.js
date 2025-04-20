@@ -76,10 +76,14 @@ const fetchCartItem=async(req,res)=>{
             select:"image title price saleprice stock"
         })
 
-        if(!cart){
+        if(!cart || cart.items.length===0){
             return res.status(200).json({
                 success:true,
-                message:"cart is empty"
+                message:"cart is empty",
+                data:{
+                    items:[],
+                    userId
+                }
             })
         }
 

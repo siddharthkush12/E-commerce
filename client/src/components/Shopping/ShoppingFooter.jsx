@@ -31,7 +31,8 @@ function ShoppingFooter() {
       </div>
 
       {/* Middle Content Section */}
-      <div className=' text-black w-full py-16 flex flex-col md:flex-row justify-between items-center gap-10 px-10 relative '>
+      <div className=' text-black w-full py-10 flex flex-col md:flex-row justify-between px-10 relative'>
+        
         {/* Left Side Links and Payment */}
         <div className='flex flex-col text-lg md:text-lg md:items-center md:justify-center'>
           <div className='flex flex-col md:flex-row md:gap-10 gap-5 '>
@@ -73,13 +74,14 @@ function ShoppingFooter() {
 
         {/* About Section */}
         <div className='flex flex-col max-w-md'>
-          <div className='shadow rounded-xl px-6 py-4 bg-white text-gray-800'>
+          <div className='px-3 text-gray-800'>
             <h5 className='text-lg font-semibold mb-2 text-center'>About</h5>
-            <p className='text-sm leading-relaxed text-gray-700'>
+            <p className='text-base leading-relaxed text-gray-700'>
               Closify is a modern and user-friendly e-commerce platform designed to make online shopping simple, seamless, and secure. Whether you’re a casual buyer or a serious seller, Closify provides powerful features like real-time product management, a smooth checkout experience, and responsive design across devices.
             </p>
           </div>
         </div>
+
       </div>
 
       {/* Footer Base */}
