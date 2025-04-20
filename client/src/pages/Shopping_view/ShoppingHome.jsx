@@ -60,6 +60,7 @@ function ShoppingHome() {
   );
   const { isLoading } = useSelector((state) => state.shopProduct);
   const { user } = useSelector((state) => state.auth);
+  const {isAuthenticated}=useSelector(state=>state.auth)
   const banners = [banner1, banner2, banner3, banner4, banner5];
   const [currentProductView, setCurrentProductView] = useState(8);
   const [openDetailsDialog, setOpenDetailsDialog] = useState(false);
@@ -81,28 +82,42 @@ function ShoppingHome() {
   }
 
   function handleAddToCart(getCurrentProductId) {
-    dispatch(
-      addToCart({
-        userId: user?.id,
-        productId: getCurrentProductId,
-        quantity: 1,
-      })
-    ).then((data) => {
-      if (data?.payload?.success) {
-        dispatch(fetchCart(user?.id));
-        toast("Product added to cart");
-      }
-    });
+    if(isAuthenticated){
+      dispatch(
+        addToCart({
+          userId: user?.id,
+          productId: getCurrentProductId,
+          quantity: 1,
+        })
+      ).then((data) => {
+        if (data?.payload?.success) {
+          dispatch(fetchCart(user?.id));
+          toast("Product added to cart");
+        }
+      });
+    }
+    else{
+      navigate('/auth/login')
+      toast("Login to Buy Anything")
+    }
+    
   }
 
   function handleAddToWishlist(getCurrentProductId) {
-    dispatch(
-      addWishlistProduct({ userId: user?.id, productId: getCurrentProductId })
-    ).then((data) => {
-      if (data?.payload?.message) {
-        toast(data?.payload?.message);
-      }
-    });
+    if(isAuthenticated){
+      dispatch(
+        addWishlistProduct({ userId: user?.id, productId: getCurrentProductId })
+      ).then((data) => {
+        if (data?.payload?.message) {
+          toast(data?.payload?.message);
+        }
+      });
+    }
+    else{
+      navigate('/auth/login')
+      toast("Login to Buy Anything")
+    }
+    
   }
 
   useEffect(() => {

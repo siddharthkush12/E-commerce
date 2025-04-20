@@ -18,37 +18,55 @@ import { useNavigate } from 'react-router'
 function ProductDetails({productDetails, open, setOpen}) {
 
   const {user}=useSelector(state=>state.auth);
-    const navigate=useNavigate();
-
+  const navigate=useNavigate();
+  const {isAuthenticated}=useSelector(state=>state.auth)
   
   const dispatch=useDispatch();
   
   function handleWishlist(){
+    if(isAuthenticated){
       dispatch(addWishlistProduct({userId:user?.id,productId:productDetails._id})).then((data)=>{
-          if(data?.payload?.message){
-            toast(data?.payload?.message)
-          }
-      })
+        if(data?.payload?.message){
+          toast(data?.payload?.message)
+        }
+    })
+    }
+    else{
+      toast("Login to Add in WishList")
+    }
+     
   }
 
   function handleAddToCart(getProductDetail){
-    dispatch(addToCart({userId:user?.id,productId:getProductDetail?._id,quantity:1}))
+    if(isAuthenticated){
+      dispatch(addToCart({userId:user?.id,productId:getProductDetail?._id,quantity:1}))
     .then((data)=>{
         if(data?.payload?.success){
             dispatch(fetchCart(user?.id))
             toast(data?.payload?.message);
         }
     })
+    }
+    else{
+      toast("Login to Add in Cart")
+    }
+    
   }
 
   function handleBuyNow(getProductDetail){
-    dispatch(addToCart({userId:user?.id,productId:getProductDetail?._id,quantity:1}))
-    .then((data)=>{
-        if(data?.payload?.success){
-          dispatch(fetchCart(user?.id))
-          navigate('/shop/checkout')
-        }
-    })
+    if(isAuthenticated){
+      dispatch(addToCart({userId:user?.id,productId:getProductDetail?._id,quantity:1}))
+      .then((data)=>{
+          if(data?.payload?.success){
+            dispatch(fetchCart(user?.id))
+            navigate('/shop/checkout')
+          }
+      })
+    }
+    else{
+      navigate('/auth/login')
+      toast("Login to Buy")
+    }
   }
 
   

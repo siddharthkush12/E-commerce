@@ -5,7 +5,7 @@ import { Button } from '../ui/button'
 import { Heart, ShoppingBag, } from 'lucide-react'
 
 
-function ShoppingProductCard({ product, handleGetProductDetails ,handleAddToCart ,handleAddToWishlist}) {
+function ShoppingProductCard({ product, handleGetProductDetails ,handleAddToCart ,handleAddToWishlist,isAuthenticated}) {
   const discount =
     product?.price && product?.saleprice
       ? Math.round(((product.price - product.saleprice) / product.price) * 100)
@@ -33,7 +33,7 @@ function ShoppingProductCard({ product, handleGetProductDetails ,handleAddToCart
 
         {/* Hover overlay */}
 
-        <div className="absolute bottom-0 left-0 right-0 min-h-[80px] opacity-0 group-hover:opacity-100 transition-all duration-500 bg-black/30     backdrop-blur-sm flex flex-row xl:flex-row md:flex-col items-center justify-center gap-2 px-4 py-2 z-10">
+        <div className="absolute bottom-0 left-0 right-0 min-h-[80px] opacity-0 group-hover:opacity-100 transition-all duration-500 bg-black/30 backdrop-blur-sm flex flex-row xl:flex-row md:flex-col items-center justify-center gap-2 px-4 py-2 z-10">
             <Button variant="secondary" size="sm" className="xs:w-auto cursor-pointer" 
               onClick={
                 (e)=>{
