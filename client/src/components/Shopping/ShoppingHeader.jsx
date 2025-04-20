@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { Link, useNavigate, NavLink, useLocation } from "react-router-dom";
+import { Link, useNavigate, NavLink, useLocation, useSearchParams } from "react-router-dom";
 import { Sheet, SheetContent, SheetTrigger,SheetTitle,SheetDescription } from "../ui/sheet";
 import { Button } from "../ui/button";
 import {
@@ -9,7 +9,6 @@ import {
   Heart,
   LogOut,
   Map,
-  MapPinHouse,
   Menu,
   PiggyBank,
   ShoppingCart,
@@ -44,17 +43,19 @@ import Contact from "./Contact";
 function MenuItems() {
 
   const navigate=useNavigate();
-  
-  
+  const location=useLocation();
+  const [searchParams,setSearchParam]=useSearchParams();
 
   function handleNavigate(item){
     sessionStorage.removeItem('filters')
     
-    const CurrentMenu=item?.id!=='home'?
+    const currentFilter=item?.id!=='home'?
     {
       category:[item?.id]
     }:null
-    sessionStorage.setItem('filters',JSON.stringify(CurrentMenu))
+    sessionStorage.setItem('filters',JSON.stringify(currentFilter))
+    location.pathname.includes('listing') && currentFilter!==null ?
+    setSearchParam(new URLSearchParams(`?category=${item?.id}`)) : 
     navigate(item?.path)
   }
 

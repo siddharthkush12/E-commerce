@@ -9,7 +9,7 @@ function ShoppingFooter() {
     <div className='border shadow flex flex-col items-center justify-center w-full bg-gradient-to-b from-orange-100 to-orange-200'>
       {/* Subscribe Section */}
       <div className='w-full flex flex-col gap-2 items-center justify-center pt-5'>
-        <h4 className='text-3xl md:text-4xl'>Subscribe to get Admin Access</h4>
+        <h4 className='text-2xl md:text-4xl'>Subscribe to get Admin Access</h4>
         <span className='text-base md:text-xs text-muted-foreground uppercase'>
           get admin access and add some products
         </span>
@@ -33,8 +33,8 @@ function ShoppingFooter() {
       {/* Middle Content Section */}
       <div className=' text-black w-full py-16 flex flex-col md:flex-row justify-between items-center gap-10 px-10 relative '>
         {/* Left Side Links and Payment */}
-        <div className='flex flex-col text-3xl md:text-lg items-center justify-center'>
-          <div className='flex flex-col md:flex-row md:gap-10 '>
+        <div className='flex flex-col text-lg md:text-lg md:items-center md:justify-center'>
+          <div className='flex flex-col md:flex-row md:gap-10 gap-5 '>
             {/* Quick Links */}
             <div className='flex flex-col'>
               <h5 className='font-semibold mb-2'>Quick Links</h5>

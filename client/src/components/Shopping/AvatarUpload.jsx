@@ -52,7 +52,6 @@ function AvatarUpload({imageFile,setAvatarUploadUrl,setErrorInUpload,setAvatarIs
             <Avatar className="relative h-24 w-24">
                 <AvatarImage src={imageFile}/>
                 <AvatarFallback className='text-amber-500 font-black text-6xl'>{user?.username[0]}</AvatarFallback>
-                
             </Avatar>
         </label>
        

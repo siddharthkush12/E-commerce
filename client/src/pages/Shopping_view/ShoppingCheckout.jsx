@@ -4,18 +4,22 @@ import Payment from '@/components/Shopping/Payment';
 import { Breadcrumb, BreadcrumbItem, BreadcrumbList, BreadcrumbSeparator } from '@/components/ui/breadcrumb'
 import { Button } from '@/components/ui/button';
 import React, { useState } from 'react'
+import { useSelector } from 'react-redux';
 
 function ShoppingCheckout() {
   const [activeState,setActiveState]=useState("checkout");
   const [addressSelected,setAddressSelected]=useState(null);
+  const {cartItems}=useSelector((state)=>state.shopCart);
+  const {user}=useSelector((state)=>state.auth);
+
+ 
   
 
   function handleBreadCrumbClick(currentState) {
       setActiveState(currentState);
   }
 
-  console.log(addressSelected);
-  
+
 
 
   return (
@@ -59,6 +63,7 @@ function ShoppingCheckout() {
         activeState==='address' && <>
         <Address
           setAddressSelected={setAddressSelected}
+          addressSelected={addressSelected}
         />
         <div className='flex flex-col items-center mt-5'>
           <Button variant='outline' onClick={()=>setActiveState("payment")}>Continue</Button>
@@ -68,7 +73,7 @@ function ShoppingCheckout() {
         
       }
       {
-        activeState==='payment' && <Payment/>
+        activeState==='payment' && <Payment addressInfo={addressSelected} cartItems={cartItems} user={user}/>
       }
     </div>
     

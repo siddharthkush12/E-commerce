@@ -123,7 +123,7 @@ function ShoppingHome() {
   return (
     <div className='flex flex-col min-h-screen'>
       {/* Banners */}
-      <div className='relative w-full h-[600px] overflow-hidden'>
+      <div className='relative w-full h-70 md:h-[500px] overflow-auto'>
         {
           banners.map((item,index)=>{
             return(
@@ -131,7 +131,7 @@ function ShoppingHome() {
               src={item}
               alt="Image not found"
               key={index}
-              className={`${index===currentBanner? 'opacity-100':'opacity-0'} absolute top-0 left-0 w-full h-full object-cover transition-opacity duration-1000`}
+              className={`${index===currentBanner? 'opacity-100':'opacity-0'} absolute top-0 left-0 w-full h-full object-fill transition-opacity duration-1000`}
               />
             )
           })

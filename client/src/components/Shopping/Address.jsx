@@ -16,7 +16,7 @@ const initialFormData = {
   addressType: ""
 };
 
-function Address({setAddressSelected}) {
+function Address({setAddressSelected,addressSelected}) {
 
 
   const [formData, setFormData] = useState(initialFormData);
@@ -25,6 +25,7 @@ function Address({setAddressSelected}) {
   const { addressList } = useSelector(state => state.shopAddress);
   const [showForm, setShowForm] = useState(false);
   const [currentEditedId, setCurrentEditedId] = useState(null);
+
 
   function isFormValid() {
     return Object.values(formData).every(value => value !== '');
@@ -88,7 +89,7 @@ function Address({setAddressSelected}) {
                     setCurrentEditedId={setCurrentEditedId}
                     handleDeleteAddress={handleDeleteAddress}
                     setAddressSelected={setAddressSelected}
-                    
+                    addressSelected={addressSelected}
                 />
           ))}
 

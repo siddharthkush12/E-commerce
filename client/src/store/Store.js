@@ -6,7 +6,8 @@ import wishlistReducer from "./shop/wishList-slice/index.js"
 import cartReducer from "./shop/cart-slice/index.js"
 import addressReducer from './shop/address-slice/index.js'
 import profileReducer from './shop/profile-slice/index.js'
-
+import shopOrder from './shop/order-slice/index.js'
+import adminOrder from './admin/order-slice/index.js'
 
 export const store=configureStore({
     reducer:{
@@ -16,7 +17,9 @@ export const store=configureStore({
         wishlistProduct:wishlistReducer,
         shopCart:cartReducer,
         shopAddress:addressReducer,
-        shopProfile:profileReducer
+        shopProfile:profileReducer,
+        shopOrder:shopOrder,
+        adminOrder:adminOrder
     }
 })
 

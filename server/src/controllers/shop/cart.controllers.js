@@ -77,9 +77,9 @@ const fetchCartItem=async(req,res)=>{
         })
 
         if(!cart){
-            return res.status(404).json({
-                success:false,
-                message:"cart not found"
+            return res.status(200).json({
+                success:true,
+                message:"cart is empty"
             })
         }
 
@@ -114,7 +114,7 @@ const fetchCartItem=async(req,res)=>{
         console.log(error);
         res.status(500).json({
             success:false,
-            message:"failed to add on cart"
+            message:"failed to fetch on cart"
         })
     }
 }

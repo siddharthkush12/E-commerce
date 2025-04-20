@@ -8,6 +8,8 @@ import shopWishlistRoutes from "./routes/shop/wishlist.routes.js"
 import shopCartRoutes from "./routes/shop/cart.routes.js"
 import shopAddressRoutes from "./routes/shop/address.routes.js"
 import shopProfileRoutes from './routes/shop/profile.routes.js'
+import shopOrderRouter from './routes/shop/order.routes.js'
+import adminOrderRoute from './routes/admin/AdminOrder.routes.js'
 
 
 const app=express();
@@ -47,11 +49,13 @@ app.use(express.static("public"));
 
 app.use('/api/auth',authRouter);
 app.use('/api/admin/products',adminProductRoutes);
+app.use('/api/admin/orders',adminOrderRoute);
 app.use('/api/shop/products',shopProductRoutes);
 app.use('/api/shop/wishlist',shopWishlistRoutes);
 app.use('/api/shop/cart',shopCartRoutes);
 app.use('/api/shop/address',shopAddressRoutes);
 app.use('/api/shop/profile',shopProfileRoutes);
+app.use('/api/shop/order',shopOrderRouter);
 
 
 

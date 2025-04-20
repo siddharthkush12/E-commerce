@@ -22,6 +22,8 @@ import { Skeleton } from './components/ui/skeleton'
 import ShoppingWishlist from './pages/Shopping_view/ShoppingWishlist'
 import GiftCard from './pages/Shopping_view/GiftCard'
 import Wallet from './pages/Shopping_view/Wallet'
+import RazorpayReturn from './pages/Shopping_view/RazorpayReturn'
+
 
 function App() {
   const {isAuthenticated,user,isLoading}=useSelector((state)=>state.auth);
@@ -87,6 +89,9 @@ function App() {
           <Route path='wishlist' element={<ShoppingWishlist/>}/>
           <Route path='giftcard' element={<GiftCard/>}/>
           <Route path='wallet' element={<Wallet/>}/>
+          <Route path='razorpayreturn' element={<RazorpayReturn/>}/>
+
+     
         </Route>
 
         <Route path='/unauth-page' element={<UnAuth/>}/>

@@ -33,18 +33,17 @@ function createSearchParamHelper(filterParams){
 
 function ShoppingListing() {
   const {user}=useSelector(state=>state.auth);
+  const dispatch=useDispatch();
   
-
   const {productList, productDetails}=useSelector((state)=>state.shopProduct);
   const [filters,setFilters]=useState({});
   const [sortProduct,setSortProduct]=useState(null);
   const [searchParams,setSearchParams]=useSearchParams();
   const [openDetailsDialog,setOpenDetailsDialog]=useState(false)
+  const categorySearchParams=searchParams.get('category');
 
   
-  
 
-  const dispatch=useDispatch();
 
   // Sort By function
   function handleSortProduct(value){
@@ -111,7 +110,7 @@ function ShoppingListing() {
   useEffect(()=>{
     setSortProduct("price_lowtohigh")
     setFilters(JSON.parse(sessionStorage.getItem("filters")) || {});
-  },[])
+  },[categorySearchParams])
 
 
 

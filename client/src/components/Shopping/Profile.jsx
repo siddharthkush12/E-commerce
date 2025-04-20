@@ -14,6 +14,7 @@ import { profileItemFormControl } from "@/config/formControls";
 import { editProfile, fetchProfile } from "@/store/shop/profile-slice";
 import { toast } from "sonner";
 import AvatarUpload from "./AvatarUpload";
+import { FaRegHandPointRight } from "react-icons/fa";
 
 const initialFormData = {
   phone: "",
@@ -75,6 +76,7 @@ function Profile() {
           if (data?.payload?.success) {
             console.log(data?.payload);
             dispatch(fetchProfile(user?.id));
+            setAvatarUploadUrl(null)
           }
         });
       }
@@ -111,7 +113,7 @@ function Profile() {
           >
             {avatarUploadUrl === null
               ? "Edit Avatar"
-              : "Click to change Avatar"}
+              : <><FaRegHandPointRight />"Click to change Avatar"</>}
           </Button>
         </div>
         <CardTitle className="text-2xl font-semibold text-primary">

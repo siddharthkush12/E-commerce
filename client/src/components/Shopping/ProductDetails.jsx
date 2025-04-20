@@ -41,6 +41,16 @@ function ProductDetails({productDetails, open, setOpen}) {
     })
   }
 
+  function handleBuyNow(getProductDetail){
+    dispatch(addToCart({userId:user?.id,productId:getProductDetail?._id,quantity:1}))
+    .then((data)=>{
+        if(data?.payload?.success){
+          dispatch(fetchCart(user?.id))
+          navigate('/shop/checkout')
+        }
+    })
+  }
+
   
 
   return (
@@ -105,7 +115,11 @@ function ProductDetails({productDetails, open, setOpen}) {
                             <ShoppingBag />
                             Add to Cart
                         </Button>
-                        <Button variant="destructive" size="sm" className="xs:w-auto cursor-pointer" onClick={()=>navigate('/shop/checkout')}>
+                        <Button
+                        variant="destructive"
+                        size="sm"
+                        className="xs:w-auto cursor-pointer"
+                        onClick={()=>handleBuyNow(productDetails)}>
                             <ShoppingCart />
                             Buy Now
                         </Button>
