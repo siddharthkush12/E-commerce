@@ -12,7 +12,7 @@ function ShoppingLayout() {
     <div className='flex flex-col bg-white overflow-hidden'>
       
       <ShoppingHeader/>
-        <div className="flex flex-col w-full mt-12 md:mt-15">
+        <div className="flex flex-col w-full mt-12 md:mt-15 min-h-[100vh]">
             <Outlet/>
         </div>
       <ShoppingFooter/>

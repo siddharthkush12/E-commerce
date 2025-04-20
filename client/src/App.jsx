@@ -90,10 +90,9 @@ function App() {
 
         <Route path='/unauth-page' element={<UnAuth/>} />
 
-        {/* Updated root route to redirect to /shop/home */}
+        
         <Route path="/" element={<Navigate to="/shop/home" replace />} />
 
-        {/* Optional: catch all unmatched routes */}
         <Route path="*" element={<Notfound />} />
 
       </Routes>

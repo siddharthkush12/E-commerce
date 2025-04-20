@@ -135,12 +135,6 @@ function ShoppingListing() {
       setOpenDetailsDialog(true);
     }
   },[productDetails]) 
-
-  console.log(sessionStorage.getItem("filters"));
-  const newFilter=sessionStorage.getItem("filters");
-  console.log(newFilter);
-  
-
   
   
 

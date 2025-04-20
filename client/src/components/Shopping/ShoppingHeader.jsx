@@ -49,7 +49,7 @@ import { Dialog } from "../ui/dialog";
 import GooglemapShopListing from "./GooglemapShopListing";
 import Contact from "./Contact";
 
-function MenuItems() {
+function MenuItems({setSheetOpen}) {
   const navigate = useNavigate();
   const location = useLocation();
   const [searchParams, setSearchParam] = useSearchParams();
@@ -78,6 +78,7 @@ function MenuItems() {
             key={menuItems.id}
             onClick={() => {
               handleNavigate(menuItems);
+              setSheetOpen(false)
             }}
           >
             {menuItems.label}
@@ -122,6 +123,8 @@ function RightMenuItems({ isAuthenticated }) {
 
   const [googleMapDialogOpen, setGoogleMapDialog] = useState(false);
   const [contactOpen, setContactOpen] = useState(false);
+
+ 
 
   const navigate = useNavigate();
   const dispatch = useDispatch();
@@ -251,19 +254,20 @@ function RightMenuItems({ isAuthenticated }) {
 
 function ShoppingHeader() {
   const { isAuthenticated } = useSelector((state) => state.auth);
+  const [sheetOpen,setSheetOpen]=useState(false);
 
   return (
     <header className="fixed top-0 z-50 w-full shadow border-b bg-background">
-      <div className="flex h-12 md:h-15 items-center justify-between px-3 mx-auto  md:px-10">
+      <div className="flex h-12 md:h-15 items-center justify-between mx-auto  md:px-10">
         <Link to="/shop/home">
           <img
             src="/Logo.png"
-            className="w-auto h-8 md:h-12 items-center mr-35 md:mr-0"
+            className="w-auto h-8 md:h-12 items-center mr-35 md:mr-0 px-4"
           />
         </Link>
 
         {/* For smaller Device */}
-        <Sheet>
+        <Sheet open={sheetOpen} onOpenChange={setSheetOpen}>
           <SheetTrigger asChild>
             <Button variant="outline" className="lg:hidden w-9 h-9">
               <TiThMenuOutline className=" text-amber-700" />
@@ -277,7 +281,7 @@ function ShoppingHeader() {
             <SheetDescription></SheetDescription>
             {
               <div className="ml-6">
-                <MenuItems />
+                <MenuItems setSheetOpen={setSheetOpen}/>
               </div>
             }
           </SheetContent>

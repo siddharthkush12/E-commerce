@@ -50,7 +50,7 @@ function Contact() {
             <a href="https://www.instagram.com/siddharth_kush2002/" target='_blank' aria-label="Instagram">
                <FaInstagram color='orange'/>
             </a>
-            <a href="https://twitter.com/siddharth_kush" target='_blank' aria-label="Twitter">
+            <a href="https://x.com/siddharthK0202" target='_blank' aria-label="Twitter">
                <FaXTwitter color='black'/>
             </a>
         </div>
@@ -58,7 +58,7 @@ function Contact() {
       <div className="flex flex-col p-1">
         <div className="flex flex-col items-center justify-center gap-20 md:flex-row">
           <Avatar className="w-50 h-auto">
-            <AvatarImage src="/avatar.jpg"></AvatarImage>
+            <AvatarImage src="/image.png"></AvatarImage>
           </Avatar>
           <div className="flex flex-col gap-2">
             <div className="text-xl">
