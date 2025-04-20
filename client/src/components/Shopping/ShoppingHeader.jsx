@@ -49,7 +49,7 @@ import { Dialog } from "../ui/dialog";
 import GooglemapShopListing from "./GooglemapShopListing";
 import Contact from "./Contact";
 
-function MenuItems({setSheetOpen}) {
+function MenuItems({ setSheetOpen }) {
   const navigate = useNavigate();
   const location = useLocation();
   const [searchParams, setSearchParam] = useSearchParams();
@@ -70,22 +70,22 @@ function MenuItems({setSheetOpen}) {
   }
 
   return (
-    <nav className="flex flex-col mb-2 lg:mb-0 lg:items-center gap-9 lg:flex-row">
+    <ul className="flex flex-col space-y-7 lg:space-y-0 text-xl px-7 lg:p-0 lg:px-0 lg:space-x-8 lg:flex-row lg:mt-0">
       {shopViewHeaderMenuItems.map((menuItems) => {
         return (
-          <Label
-            className="font-semibold text-xl duration-200 text-muted-foreground hover:text-orange-500"
+          <li
+            className="block py-2 px-3 text-black hover:text-orange-500 cursor-pointer md:p-0"
             key={menuItems.id}
             onClick={() => {
               handleNavigate(menuItems);
-              setSheetOpen(false)
+              setSheetOpen(false);
             }}
           >
             {menuItems.label}
-          </Label>
+          </li>
         );
       })}
-    </nav>
+    </ul>
   );
 }
 
@@ -124,8 +124,6 @@ function RightMenuItems({ isAuthenticated }) {
   const [googleMapDialogOpen, setGoogleMapDialog] = useState(false);
   const [contactOpen, setContactOpen] = useState(false);
 
- 
-
   const navigate = useNavigate();
   const dispatch = useDispatch();
 
@@ -139,13 +137,16 @@ function RightMenuItems({ isAuthenticated }) {
   }, [dispatch, user?.id]);
 
   return (
-    <div className="flex flex-col gap-5 p-6 items-start lg:flex-row lg:items-center">
+    <div className="flex flex-col gap-5 items-start lg:flex-row lg:items-center">
       {/* Dropdown */}
       {isAuthenticated ? (
         <DropdownMenu>
           <DropdownMenuTrigger asChild>
-            <Avatar className="h-9 w-9 md:h-10 md:w-10 cursor-pointer">
-              <AvatarImage src={profileList?.avatar}></AvatarImage>
+            <Avatar className="w-10 h-10 lg:w-12 lg:h-12 cursor-pointer">
+              <AvatarImage
+                src={profileList?.avatar}
+                className="w-full h-full object-cover"
+              ></AvatarImage>
               <AvatarFallback className="text-3xl bg-orange-300">
                 {user?.username?.[0]?.toUpperCase() || ""}
               </AvatarFallback>
@@ -203,8 +204,11 @@ function RightMenuItems({ isAuthenticated }) {
         <>
           <DropdownMenu>
             <DropdownMenuTrigger asChild>
-              <Avatar className=" h-9 w-9 md:h-10 md:w-10 cursor-pointer">
-                <AvatarImage src="/avatar.jpg"></AvatarImage>
+              <Avatar className="w-10 h-10 lg:w-12 lg:h-12 cursor-pointer">
+                <AvatarImage
+                  src="/avatar.jpg"
+                  className="w-full h-full object-cover"
+                />
               </Avatar>
             </DropdownMenuTrigger>
             <DropdownMenuContent side="bottom" className="w-auto min-w-55 mt-3">
@@ -254,53 +258,53 @@ function RightMenuItems({ isAuthenticated }) {
 
 function ShoppingHeader() {
   const { isAuthenticated } = useSelector((state) => state.auth);
-  const [sheetOpen,setSheetOpen]=useState(false);
+  const [sheetOpen, setSheetOpen] = useState(false);
 
   return (
-    <header className="fixed top-0 z-50 w-full shadow border-b bg-background">
-      <div className="flex h-12 md:h-15 items-center justify-between mx-auto  md:px-10">
-        <Link to="/shop/home">
-          <img
-            src="/Logo.png"
-            className="w-auto h-8 md:h-12 items-center mr-35 md:mr-0 px-4"
-          />
+    <nav className="fixed top-0 z-50 bg-white border-b border-orange-200">
+      <div className="min-w-[100vw] flex items-center justify-between px-3 lg:px-5 py-2">
+        <Link to="/shop/home" className="flex items-center space-x-3">
+          <img src="/Logo.png" className="h-10" />
         </Link>
 
         {/* For smaller Device */}
-        <Sheet open={sheetOpen} onOpenChange={setSheetOpen}>
-          <SheetTrigger asChild>
-            <Button variant="outline" className="lg:hidden w-9 h-9">
-              <TiThMenuOutline className=" text-amber-700" />
-              <span className="sr-only">Toggle header menu</span>
-            </Button>
-          </SheetTrigger>
-          <SheetContent side="left" className="w-full max-w-xs p-5 text-left">
-            <SheetTitle className="w-12 ml-6 mt-10">
-              <CartView />
-            </SheetTitle>
-            <SheetDescription></SheetDescription>
-            {
-              <div className="ml-6">
-                <MenuItems setSheetOpen={setSheetOpen}/>
+        <div className="flex items-center space-x-3 lg:order-2 lg:space-x-0">
+          <Sheet open={sheetOpen} onOpenChange={setSheetOpen}>
+            <SheetTrigger asChild>
+              <Button variant="outline" className="lg:hidden">
+                <TiThMenuOutline className=" text-amber-700" />
+                <span className="sr-only">Toggle header menu</span>
+              </Button>
+            </SheetTrigger>
+            <SheetContent side="left">
+              <SheetTitle></SheetTitle>
+              <div className="mt-15 max-w-12 ml-8">
+                <CartView isAuthenticated={isAuthenticated} />
               </div>
-            }
-          </SheetContent>
-        </Sheet>
+              <SheetDescription></SheetDescription>
+              {
+                <div className="">
+                  <MenuItems setSheetOpen={setSheetOpen} />
+                </div>
+              }
+            </SheetContent>
+          </Sheet>
 
-        {/* For larger Device */}
-        <div className="flex items-center justify-center flex-1">
-          <div className="hidden md:flex flex-1 justify-center">
-            <MenuItems />
-          </div>
-          <div className="md:flex md:flex-row items-center justify-center">
+          {/* For larger Device */}
+
+          <div className="flex items-center md:order-2 space-x-3 md:space-x-0 ">
             <RightMenuItems isAuthenticated={isAuthenticated} />
-            <div className="hidden md:flex md:flex-row flex-1 justify-center">
+            <div className="hidden lg:flex lg:items-center lg:ml-3">
               <CartView isAuthenticated={isAuthenticated} />
             </div>
           </div>
         </div>
+
+        <div className="items-center justify-between hidden w-full lg:flex md:w-auto md:order-1">
+          <MenuItems />
+        </div>
       </div>
-    </header>
+    </nav>
   );
 }
 
