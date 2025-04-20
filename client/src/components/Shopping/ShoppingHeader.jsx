@@ -31,6 +31,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { shopViewHeaderMenuItems } from "@/config/formControls";
 import { Avatar, AvatarFallback, AvatarImage } from "../ui/avatar";
 import { Badge } from "../ui/badge";
+import { TiThMenuOutline } from "react-icons/ti";
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -87,43 +88,36 @@ function MenuItems() {
   );
 }
 
-
-function CartView({isAuthenticated}){
+function CartView({ isAuthenticated }) {
   const { cartItems } = useSelector((state) => state.shopCart);
   const [openCartSheet, setOpenCartSheet] = useState(false);
-    return (
-      isAuthenticated ? (
-        <Sheet
-          open={openCartSheet}
-          onOpenChange={() => setOpenCartSheet(false)}
-        >
-          <div
-            className="relative rounded p-3 border border-gray-100 cursor-pointer"
-            onClick={() => setOpenCartSheet(true)}
-          >
-            <Badge className="absolute -top-1 -right-3 bg-yellow-300 rounded-full text-black">
-              {cartItems?.items?.length || 0}
-            </Badge>
-            <ShoppingCart className="w-5 h-5" />
-            <span className="sr-only">User cart</span>
-          </div>
-          <CartWrapper
-            cartItems={
-              cartItems && cartItems.items && cartItems.items.length > 0
-                ? cartItems.items
-                : null
-            }
-            setOpenCartSheet={setOpenCartSheet}
-          />
-        </Sheet>
-      ) : null
-    )
+  return isAuthenticated ? (
+    <Sheet open={openCartSheet} onOpenChange={() => setOpenCartSheet(false)}>
+      <div
+        className="relative rounded p-3 border border-gray-100 cursor-pointer"
+        onClick={() => setOpenCartSheet(true)}
+      >
+        <Badge className="absolute -top-1 -right-3 bg-yellow-300 rounded-full text-black">
+          {cartItems?.items?.length || 0}
+        </Badge>
+        <ShoppingCart className="w-5 h-5" />
+        <span className="sr-only">User cart</span>
+      </div>
+      <CartWrapper
+        cartItems={
+          cartItems && cartItems.items && cartItems.items.length > 0
+            ? cartItems.items
+            : null
+        }
+        setOpenCartSheet={setOpenCartSheet}
+      />
+    </Sheet>
+  ) : null;
 }
 
-
-function RightMenuItems({isAuthenticated}) {
+function RightMenuItems({ isAuthenticated }) {
   const { user } = useSelector((state) => state.auth);
-  
+
   const { profileList } = useSelector((state) => state.shopProfile);
 
   const [googleMapDialogOpen, setGoogleMapDialog] = useState(false);
@@ -143,13 +137,11 @@ function RightMenuItems({isAuthenticated}) {
 
   return (
     <div className="flex flex-col gap-5 p-6 items-start lg:flex-row lg:items-center">
-    
-
       {/* Dropdown */}
       {isAuthenticated ? (
         <DropdownMenu>
           <DropdownMenuTrigger asChild>
-            <Avatar className="h-10 w-10 cursor-pointer">
+            <Avatar className="h-9 w-9 md:h-10 md:w-10 cursor-pointer">
               <AvatarImage src={profileList?.avatar}></AvatarImage>
               <AvatarFallback className="text-3xl bg-orange-300">
                 {user?.username?.[0]?.toUpperCase() || ""}
@@ -206,66 +198,38 @@ function RightMenuItems({isAuthenticated}) {
         </DropdownMenu>
       ) : (
         <>
-        
-        <DropdownMenu>
-          <DropdownMenuTrigger asChild>
-            <Avatar className="h-10 w-10 cursor-pointer">
-              <AvatarImage src="/avatar.jpg"></AvatarImage>
-            </Avatar>
-          </DropdownMenuTrigger>
-          <DropdownMenuContent side="bottom" className="w-auto min-w-55 mt-3">
-            <DropdownMenuLabel className="flex flex-col text-left">
-              <h3 className="text-lg font-bold">Hello, Please Login!</h3>
-              <p>Login to Access</p>
-            </DropdownMenuLabel>
-            <DropdownMenuSeparator />
+          <DropdownMenu>
+            <DropdownMenuTrigger asChild>
+              <Avatar className=" h-9 w-9 md:h-10 md:w-10 cursor-pointer">
+                <AvatarImage src="/avatar.jpg"></AvatarImage>
+              </Avatar>
+            </DropdownMenuTrigger>
+            <DropdownMenuContent side="bottom" className="w-auto min-w-55 mt-3">
+              <DropdownMenuLabel className="flex flex-col text-left">
+                <h3 className="text-lg font-bold">Hello, Please Login!</h3>
+                <p>Login to Access</p>
+              </DropdownMenuLabel>
+              <DropdownMenuSeparator />
 
-            <DropdownMenuItem onClick={() => setContactOpen(true)}>
-              <CircleHelp />
-              Contact Us
-            </DropdownMenuItem>
+              <DropdownMenuItem onClick={() => setContactOpen(true)}>
+                <CircleHelp />
+                Contact Us
+              </DropdownMenuItem>
 
-            <DropdownMenuItem onClick={() => setGoogleMapDialog(true)}>
-              <Map />
-              Offline Stores
-            </DropdownMenuItem>
+              <DropdownMenuItem onClick={() => setGoogleMapDialog(true)}>
+                <Map />
+                Offline Stores
+              </DropdownMenuItem>
 
-            <DropdownMenuSeparator />
-            <DropdownMenuItem onClick={() => navigate("/auth/login")}>
-              <LogIn className="mr-2" />
-              Login
-            </DropdownMenuItem>
-          </DropdownMenuContent>
-        </DropdownMenu>
+              <DropdownMenuSeparator />
+              <DropdownMenuItem onClick={() => navigate("/auth/login")}>
+                <LogIn className="mr-2" />
+                Login
+              </DropdownMenuItem>
+            </DropdownMenuContent>
+          </DropdownMenu>
         </>
       )}
-
-      {/* Cart */}
-      {/* {isAuthenticated ? (
-        <Sheet
-          open={openCartSheet}
-          onOpenChange={() => setOpenCartSheet(false)}
-        >
-          <div
-            className="relative rounded p-3 border border-gray-100 cursor-pointer"
-            onClick={() => setOpenCartSheet(true)}
-          >
-            <Badge className="absolute -top-1 -right-3 bg-yellow-300 rounded-full text-black">
-              {cartItems?.items?.length || 0}
-            </Badge>
-            <ShoppingCart className="w-5 h-5" />
-            <span className="sr-only">User cart</span>
-          </div>
-          <CartWrapper
-            cartItems={
-              cartItems && cartItems.items && cartItems.items.length > 0
-                ? cartItems.items
-                : null
-            }
-            setOpenCartSheet={setOpenCartSheet}
-          />
-        </Sheet>
-      ) : null} */}
 
       {/* Google Map Integration */}
       <Dialog
@@ -286,45 +250,49 @@ function RightMenuItems({isAuthenticated}) {
 }
 
 function ShoppingHeader() {
-
   const { isAuthenticated } = useSelector((state) => state.auth);
 
   return (
     <header className="fixed top-0 z-50 w-full shadow border-b bg-background">
-      <div className="flex h-15 items-center justify-between px-3  md:px-10">
+      <div className="flex h-12 md:h-15 items-center justify-between px-3 mx-auto  md:px-10">
         <Link to="/shop/home">
-          <img src="/Logo.png" className="w-auto h-12 items-center mr-30 md:mr-0" />
+          <img
+            src="/Logo.png"
+            className="w-auto h-8 md:h-12 items-center mr-35 md:mr-0"
+          />
         </Link>
 
         {/* For smaller Device */}
         <Sheet>
           <SheetTrigger asChild>
-            <Button variant="outline" className="lg:hidden">
-              <Menu />
+            <Button variant="outline" className="lg:hidden w-9 h-9">
+              <TiThMenuOutline className=" text-amber-700" />
               <span className="sr-only">Toggle header menu</span>
             </Button>
           </SheetTrigger>
           <SheetContent side="left" className="w-full max-w-xs p-5 text-left">
-            <SheetTitle className='w-12 ml-6 mt-10'><CartView/></SheetTitle>
+            <SheetTitle className="w-12 ml-6 mt-10">
+              <CartView />
+            </SheetTitle>
             <SheetDescription></SheetDescription>
-            {(
+            {
               <div className="ml-6">
                 <MenuItems />
               </div>
-            )}
+            }
           </SheetContent>
         </Sheet>
 
         {/* For larger Device */}
-        <div className="flex items-center justify-between flex-1">
+        <div className="flex items-center justify-center flex-1">
           <div className="hidden md:flex flex-1 justify-center">
             <MenuItems />
           </div>
-          <div className="flex flex-row items-center justify-center">
-          <RightMenuItems isAuthenticated={isAuthenticated}/>
-          <div className="hidden md:flex flex-1 justify-center">
-            <CartView isAuthenticated={isAuthenticated}/>
-          </div>
+          <div className="md:flex md:flex-row items-center justify-center">
+            <RightMenuItems isAuthenticated={isAuthenticated} />
+            <div className="hidden md:flex md:flex-row flex-1 justify-center">
+              <CartView isAuthenticated={isAuthenticated} />
+            </div>
           </div>
         </div>
       </div>

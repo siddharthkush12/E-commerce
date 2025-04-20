@@ -5,7 +5,7 @@ import { Button } from '../ui/button'
 import { Heart, ShoppingBag, } from 'lucide-react'
 
 
-function ShoppingProductCard({ product, handleGetProductDetails ,handleAddToCart ,handleAddToWishlist,isAuthenticated}) {
+function ShoppingProductCard({ product, handleGetProductDetails ,handleAddToCart ,handleAddToWishlist,isAuthenticated, style}) {
   const discount =
     product?.price && product?.saleprice
       ? Math.round(((product.price - product.saleprice) / product.price) * 100)
@@ -16,7 +16,7 @@ function ShoppingProductCard({ product, handleGetProductDetails ,handleAddToCart
       
       
       {/* Image */}
-      <div className="relative h-[350px] overflow-hidden">
+      <div className={`relative h-[200px] md:h-[350px] overflow-hidden`}>
         <img
           src={product?.image}
           alt={product?.title}

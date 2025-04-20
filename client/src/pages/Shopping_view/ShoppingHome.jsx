@@ -35,7 +35,6 @@ import { FaRegThumbsUp, FaShippingFast } from "react-icons/fa";
 import { IoIosCheckmarkCircleOutline } from "react-icons/io";
 import { Separator } from "@/components/ui/separator";
 
-
 const categories = [
   { id: "men", label: "Men", icon: mens },
   { id: "women", label: "Women", icon: females },
@@ -60,7 +59,7 @@ function ShoppingHome() {
   );
   const { isLoading } = useSelector((state) => state.shopProduct);
   const { user } = useSelector((state) => state.auth);
-  const {isAuthenticated}=useSelector(state=>state.auth)
+  const { isAuthenticated } = useSelector((state) => state.auth);
   const banners = [banner1, banner2, banner3, banner4, banner5];
   const [currentProductView, setCurrentProductView] = useState(8);
   const [openDetailsDialog, setOpenDetailsDialog] = useState(false);
@@ -82,7 +81,7 @@ function ShoppingHome() {
   }
 
   function handleAddToCart(getCurrentProductId) {
-    if(isAuthenticated){
+    if (isAuthenticated) {
       dispatch(
         addToCart({
           userId: user?.id,
@@ -95,16 +94,14 @@ function ShoppingHome() {
           toast("Product added to cart");
         }
       });
+    } else {
+      navigate("/auth/login");
+      toast("Login to Buy Anything");
     }
-    else{
-      navigate('/auth/login')
-      toast("Login to Buy Anything")
-    }
-    
   }
 
   function handleAddToWishlist(getCurrentProductId) {
-    if(isAuthenticated){
+    if (isAuthenticated) {
       dispatch(
         addWishlistProduct({ userId: user?.id, productId: getCurrentProductId })
       ).then((data) => {
@@ -112,12 +109,10 @@ function ShoppingHome() {
           toast(data?.payload?.message);
         }
       });
+    } else {
+      navigate("/auth/login");
+      toast("Login to Buy Anything");
     }
-    else{
-      navigate('/auth/login')
-      toast("Login to Buy Anything")
-    }
-    
   }
 
   useEffect(() => {
@@ -142,7 +137,7 @@ function ShoppingHome() {
   return (
     <div className="flex flex-col min-h-screen">
       {/* Banners */}
-      <div className="relative w-full h-70 md:h-[500px] overflow-auto">
+      <div className="relative w-full h-48 md:h-[500px] overflow-auto">
         {banners.map((item, index) => {
           return (
             <img
@@ -157,7 +152,7 @@ function ShoppingHome() {
         })}
         <Button
           className="absolute top-1/2 left-10 h-10 w-10 bg-black/10 hover:bg-black/30"
-          variant="outline"
+          variant="custom"
           onClick={() =>
             setCurrentBanner((prevBanner) => (prevBanner - 1) % banners.length)
           }
@@ -166,7 +161,7 @@ function ShoppingHome() {
         </Button>
         <Button
           className="absolute top-1/2 right-10 h-10 w-10 bg-black/10 hover:bg-black/30"
-          variant="outline"
+          variant="custom"
           onClick={() =>
             setCurrentBanner((prevBanner) => (prevBanner + 1) % banners.length)
           }
@@ -176,54 +171,54 @@ function ShoppingHome() {
       </div>
 
       {/* category */}
-      <div className="container mx-auto px-5 flex flex-col items-center gap-2">
-        <h3 className="text-center text-2xl md:text-3xl font-bold my-2">
+      <div className="container mx-auto px-3 flex flex-col items-center gap-2">
+        <h3 className="text-center text-xl md:text-3xl font-bold my-2 bg-gradient-to-r from-orange-400 to-orange-700 text-transparent bg-clip-text">
           Shop By Category
         </h3>
-        <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-4 mb-3">
+        <div className="grid grid-cols-3 md:grid-cols-3 lg:grid-cols-5 gap-4 mb-3">
           {categories.map((items, index) => {
             return (
-              <Card
+              <div
                 key={index}
-                className="cursor-pointer hover:shadow-xl transition-shadow"
+                className="cursor-pointer hover:shadow-xl hover:shadow-orange-200 transition-shadow border-2 border-orange-50 p-1 rounded-lg "
                 onClick={() => handleNavigateToListingPage(items, "category")}
               >
-                <CardContent className="flex flex-col gap-2 w-full">
+                <div className="flex flex-col gap-2 w-full items-center justify-center">
                   <img
                     src={items.icon}
                     alt="image not found"
-                    className="w-full h-50 rounded-xl"
+                    className="w-full h-20 md:h-50 rounded-t-lg"
                   />
-                  <span className="text-xl text-center">{items.label}</span>
-                </CardContent>
-              </Card>
+                  <span className="md:text-xl text-center">{items.label}</span>
+                </div>
+              </div>
             );
           })}
         </div>
       </div>
 
       {/* Brands */}
-      <div className="container mx-auto flex flex-col items-center gap-2">
-        <h3 className="text-center text-2xl md:text-3xl font-bold my-2">
+      <div className="container mx-auto my-8 flex flex-col items-center gap-2 px-3">
+        <h3 className="text-center text-xl md:text-3xl font-bold my-2 bg-gradient-to-r from-orange-400 to-orange-700 text-transparent bg-clip-text">
           Shop By Brands
         </h3>
-        <div className="grid grid-cols-2 md:mx-5 md:grid-cols-3 lg:grid-cols-6 gap-4 mb-5">
+        <div className="grid grid-cols-3 md:grid-cols-3 lg:grid-cols-6 gap-3 mb-3 mt-2 md:mt-4">
           {brands.map((items, index) => {
             return (
-              <Card
+              <div
                 key={index}
-                className="w-43 h-45 cursor-pointer hover:shadow-xl transition-shadow rounded-2xl flex items-center justify-center"
+                className="cursor-pointer hover:shadow-xl hover:shadow-orange-200 transition-shadow border-2 border-orange-50 rounded-lg "
                 onClick={() => handleNavigateToListingPage(items, "brand")}
               >
-                <div className="flex flex-col gap-2 p-5">
+                <div className="flex flex-col gap-2 w-full items-center justify-center p-1 md:p-2">
                   <img
                     src={items.icon}
                     alt="image not found"
-                    className="w-35 h-22"
+                    className="h-20 md:h-27 md:w-40"
                   />
-                  <span className="text-xl text-center">{items.label}</span>
+                  <span className="md:text-xl text-center">{items.label}</span>
                 </div>
-              </Card>
+              </div>
             );
           })}
         </div>
@@ -231,10 +226,10 @@ function ShoppingHome() {
 
       {/* Products */}
       <div className="container mx-auto flex flex-col gap-2 items-center p-2">
-        <h2 className="text-center text-2xl md:text-3xl font-bold my-2">
+        <h2 className="text-center text-xl md:text-3xl font-bold my-2 bg-gradient-to-r from-orange-400 to-orange-700 text-transparent bg-clip-text">
           Featured Products
         </h2>
-        <div className="grid grid-cols-2 gap-1 md:grid-cols-3 lg:grid-cols-4 md:gap-4 w-full">
+        <div className="grid grid-cols-2 gap-2 md:grid-cols-3 lg:grid-cols-4 md:gap-4 w-full px-1">
           {productList && productList?.length > 0
             ? productList.slice(0, currentProductView).map((item) => {
                 return (
@@ -244,6 +239,7 @@ function ShoppingHome() {
                     handleGetProductDetails={handleGetProductDetails}
                     handleAddToCart={handleAddToCart}
                     handleAddToWishlist={handleAddToWishlist}
+                    style={`h-[200px]`}
                   />
                 );
               })
@@ -271,19 +267,28 @@ function ShoppingHome() {
           </Button>
         )}
       </div>
-        <Separator className='my-6'/>
-      <div className="w-full py-10 px-2 flex items-center justify-center gap-20 md:gap-30">
-        <div>
-          <IoIosCheckmarkCircleOutline className="text-4xl md:text-8xl"/>
-          <span>Quality Craftmanship</span>
+      <Separator className="mt-6" />
+
+      <div className="w-full my-5 md:my-10 px-4 flex flex-col md:flex-row items-center justify-center gap-10 md:gap-20">
+        <div className="flex flex-col items-center text-center gap-2">
+          <IoIosCheckmarkCircleOutline className="text-5xl md:text-8xl text-orange-500" />
+          <span className="text-sm md:text-base font-medium">
+            Quality Certified
+          </span>
         </div>
-        <div>
-          <FaShippingFast className="text-4xl md:text-8xl"/>
-          <span>Fast & Secure Shipping</span>
+
+        <div className="flex flex-col items-center text-center gap-2">
+          <FaShippingFast className="text-5xl md:text-8xl text-orange-500" />
+          <span className="text-sm md:text-base font-medium">
+            Fast & Secure Shipping
+          </span>
         </div>
-        <div>
-          <FaRegThumbsUp className="text-4xl md:text-8xl"/>
-          <span>Hassle-Free Returns</span>
+
+        <div className="flex flex-col items-center text-center gap-2">
+          <FaRegThumbsUp className="text-5xl md:text-8xl text-orange-500" />
+          <span className="text-sm md:text-base font-medium">
+            Hassle-Free Returns
+          </span>
         </div>
       </div>
     </div>
