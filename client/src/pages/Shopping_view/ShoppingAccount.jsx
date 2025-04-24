@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useState } from 'react'
 import banner2 from '../../assets/banner2.jpg'
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs'
 import Profile from '@/components/Shopping/Profile'
@@ -12,6 +12,8 @@ function ShoppingAccount() {
 
   const [searchParams]=useSearchParams();
   const tab=searchParams.get("tab") || "profile";
+
+  const [addressSelected,setAddressSelected]=useState(null)
 
   return (
     <div className='min-h-screen flex flex-col'>
@@ -34,7 +36,7 @@ function ShoppingAccount() {
               <Orders/>
             </TabsContent>
             <TabsContent value='address'>
-              <Address/>
+              <Address addressSelected={addressSelected} setAddressSelected={setAddressSelected}/>
             </TabsContent>
             
           </Tabs>

@@ -78,7 +78,7 @@ function MenuItems({ setSheetOpen }) {
             key={menuItems.id}
             onClick={() => {
               handleNavigate(menuItems);
-              setSheetOpen(false);
+              setSheetOpen=false;
             }}
           >
             {menuItems.label}
@@ -121,6 +121,7 @@ function RightMenuItems({ isAuthenticated }) {
 
   const { profileList } = useSelector((state) => state.shopProfile);
 
+
   const [googleMapDialogOpen, setGoogleMapDialog] = useState(false);
   const [contactOpen, setContactOpen] = useState(false);
 
@@ -132,8 +133,10 @@ function RightMenuItems({ isAuthenticated }) {
   }
 
   useEffect(() => {
-    dispatch(fetchCart(user?.id));
-    dispatch(fetchProfile(user?.id));
+    if(isAuthenticated){
+      dispatch(fetchCart(user?.id));
+      dispatch(fetchProfile(user?.id));
+    }
   }, [dispatch, user?.id]);
 
   return (

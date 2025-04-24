@@ -18,7 +18,6 @@ import zara from "../../assets/zara.png";
 
 import { ChevronLeft, ChevronRight, Loader } from "lucide-react";
 import { Button } from "@/components/ui/button";
-import { Card, CardContent } from "@/components/ui/card";
 import { useDispatch, useSelector } from "react-redux";
 import ShoppingProductCard from "@/components/Shopping/ShoppingProductCard";
 import {
@@ -66,6 +65,9 @@ function ShoppingHome() {
 
   const dispatch = useDispatch();
   const navigate = useNavigate();
+ 
+  
+  
 
   function handleNavigateToListingPage(categoryItem, currentSession) {
     sessionStorage.removeItem("filters");

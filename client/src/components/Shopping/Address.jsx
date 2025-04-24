@@ -80,10 +80,10 @@ function Address({setAddressSelected,addressSelected}) {
     <div className="flex flex-col gap-6">
       <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 xl:grid-cols-4 gap-4">
         {addressList && addressList.length > 0 &&
-          addressList.map((item, index) => (
+          addressList.map((item) => (
                 <AddressCard
                     key={item?._id}
-                    item={item}
+                    address={item}
                     setShowForm={setShowForm}
                     setFormData={setFormData}
                     setCurrentEditedId={setCurrentEditedId}

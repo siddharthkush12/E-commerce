@@ -37,7 +37,7 @@ function Contact() {
       });
   }
   return (
-    <DialogContent className="w-full md:min-w-[50vw] flex flex-col items-center justify-center overflow-hidden overflow-y-auto h-auto">
+    <DialogContent className="w-full md:min-w-[50vw] flex flex-col items-center justify-center overflow-hidden overflow-y-auto h-auto" aria-describedby={undefined}>
       <DialogTitle>About Me</DialogTitle>
       <div className="flex justify-end">
         <div className='flex items-center justify-end gap-4 text-2xl'>

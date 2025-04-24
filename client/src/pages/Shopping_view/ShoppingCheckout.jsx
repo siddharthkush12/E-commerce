@@ -13,9 +13,6 @@ function ShoppingCheckout() {
   const {user}=useSelector((state)=>state.auth);
 
  
-  console.log(addressSelected);
-  
-
   function handleBreadCrumbClick(currentState) {
       setActiveState(currentState);
   }
