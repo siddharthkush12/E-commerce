@@ -77,7 +77,8 @@ const editProfile=async(req,res)=>{
 
 const handleAvtarUpload=async(req,res)=>{
     try {
-        const localPath=req.file?.path;
+        const localPath=req.file?.buffer;
+    
         const result=await uploadOnCloudinary(localPath)
         if(!result) return res.status(400).json({
             success:false,

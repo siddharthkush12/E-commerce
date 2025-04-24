@@ -10,24 +10,29 @@ function AvatarUpload({imageFile,setAvatarUploadUrl,setErrorInUpload,setAvatarIs
     const {user}=useSelector(state=>state.auth);
     
 
+   
+    
     function handleImageFileChange(e) {
         const selectedFile = e.target.files?.[0];
         if (selectedFile) setLocalImageFile(selectedFile);
-        // console.log(selectedFile);
+        
     }
     
     async function uploadImageToCloudinary() {
         setAvatarIsLoading(true)
         setErrorInUpload(false)
         try {
-            const data=new FormData();
             
+            const data=new FormData();
             data.append("avatarFile",localImageFile);
+            
             const response=await axios.post(`${import.meta.env.VITE_BACKEND}/api/shop/profile/upload_avtar`,data,
                 {
                     headers: { "Content-Type": "multipart/form-data" },
                 }
             )
+    
+            
             if(response.data?.success){
                 setAvatarUploadUrl(response.data.result.url);
                 setAvatarIsLoading(false)
