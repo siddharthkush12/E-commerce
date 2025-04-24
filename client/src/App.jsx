@@ -23,6 +23,7 @@ import ShoppingWishlist from './pages/Shopping_view/ShoppingWishlist'
 import GiftCard from './pages/Shopping_view/GiftCard'
 import Wallet from './pages/Shopping_view/Wallet'
 import RazorpayReturn from './pages/Shopping_view/RazorpayReturn'
+import Spinner from './components/ui/Spinner'
 
 function App() {
   const { isAuthenticated, user, isLoading } = useSelector((state) => state.auth);
@@ -34,15 +35,16 @@ function App() {
   
   if (isLoading) {
     return (
-      <div className="flex h-screen w-full items-center justify-center">
-        <div className="flex flex-col space-y-3">
-          <Skeleton className="h-[125px] w-[250px] rounded-xl border-r-red-400" />
-          <div className="space-y-2">
-            <Skeleton className="h-4 w-[250px] border-r-red-400" />
-            <Skeleton className="h-4 w-[200px] border-r-red-400" />
-          </div>
-        </div>
-      </div>
+      // <div className="flex h-screen w-full items-center justify-center">
+      //   <div className="flex flex-col space-y-3">
+      //     <Skeleton className="h-[125px] w-[250px] rounded-xl border-r-red-400" />
+      //     <div className="space-y-2">
+      //       <Skeleton className="h-4 w-[250px] border-r-red-400" />
+      //       <Skeleton className="h-4 w-[200px] border-r-red-400" />
+      //     </div>
+      //   </div>
+      // </div>
+      <Spinner/>
     );
   }
 
