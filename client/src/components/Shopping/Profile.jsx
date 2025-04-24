@@ -74,7 +74,6 @@ function Profile() {
           editProfile({ userId: user?.id, formData: updatedFormData })
         ).then((data) => {
           if (data?.payload?.success) {
-            console.log(data?.payload);
             dispatch(fetchProfile(user?.id));
             setAvatarUploadUrl(null)
           }
