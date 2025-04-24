@@ -2,13 +2,16 @@ import { captureOrder, createCOD, createNewOrder } from '@/store/shop/order-slic
 import React, { useState } from 'react'
 import { SiRazorpay } from "react-icons/si";
 import { GiPayMoney } from "react-icons/gi";
-import { useDispatch, useSelector } from 'react-redux';
+import { useDispatch } from 'react-redux';
 import { fetchCart } from '@/store/shop/cart-slice';
 import { useNavigate } from 'react-router';
+import Spinner from '../ui/Spinner';
 
 
 function Payment({addressInfo,cartItems,user}) {
 
+  const [isLoading,setIsLoading]=useState(false);
+ 
   const dispatch=useDispatch();
   const navigate=useNavigate();
 
@@ -37,6 +40,7 @@ const loadRazorpayScript = () => {
 };
 
   function handleClickRazorpay(){
+    setIsLoading(true)
     const orderData={
       userId:user?.id,
       cartId:cartItems?._id,
@@ -63,12 +67,13 @@ const loadRazorpayScript = () => {
       paymentId:'',
     }
   
-    
-    
+   
     dispatch(createNewOrder(orderData))
     .then(async (data)=>{
       if (data?.payload?.success) {
         const res = await loadRazorpayScript();
+        setIsLoading(false)
+    
         if (!res) return alert("Failed to load Razorpay SDK");
 
         const options = {
@@ -79,6 +84,7 @@ const loadRazorpayScript = () => {
           description: "Closify payment",
           order_id: data.payload.razorpayOrderId,
           handler: function (response) {
+            setIsLoading(true)
             // const paymentData = {
             //   razorpayPaymentId: response.razorpay_payment_id,
             //   razorpayOrderId: response.razorpay_order_id,
@@ -87,12 +93,19 @@ const loadRazorpayScript = () => {
             // };
          
             dispatch(captureOrder({razorpay_payment_id:response.razorpay_payment_id,razorpay_order_id:response.razorpay_order_id,razorpay_signature:response.razorpay_signature,orderId:data.payload.orderId}))
+            
             .then((data)=>{
               if(data?.payload?.success){
                 dispatch(fetchCart(user?.id))
                 navigate('/shop/razorpayreturn')
-              }  
+                setIsLoading(false)
+              } 
+              else{
+                alert("Payment Failed try again")
+                setIsLoading(false)
+              }
             })
+            
             
 
           },
@@ -153,7 +166,15 @@ const loadRazorpayScript = () => {
 
 
   return (
-    <div className='p-5'>
+    <div className='p-5 relative'>
+      {
+        isLoading &&
+        <Spinner
+            size="xl"
+            color="border-orange-500"
+            speed="animate-[spin_0.8s_linear_infinite]"
+          />
+      }
       <h1 className='text-center text-xl font-bold'>Available Payment Option</h1>
       <div className='flex flex-col gap-5 items-center mt-5'>
         <span className='flex border min-w-60 p-5 rounded-xl cursor-pointer text-lg gap-10 items-center hover:border-amber-600'          onClick={()=>handleCashDelivery()}>Pay On Delivery <GiPayMoney size={30} /></span>
